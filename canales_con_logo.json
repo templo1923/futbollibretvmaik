@@ -57,12 +57,12 @@
   },
   {
     "nombre": "WinSports",
-    "iframe": "https://streamtpglobal.com/global1.php?stream=winsports",
+    "iframe": "https://canales.catalogosco.top/vivo/canales.php?stream=winsportsplus",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Win_Sports_nuevo_logo.svg/1200px-Win_Sports_nuevo_logo.svg.png"
   },
   {
     "nombre": "WINSPORTS +",
-    "iframe": "https://streamtpglobal.com/global1.php?stream=winplus",
+    "iframe": "https://canales.catalogosco.top/vivo/canales.php?stream=winsportsplus",
     "logo": "win+img.png"
   },
   {
@@ -100,4 +100,5 @@
     "iframe": "https://streamtpglobal.com/global1.php?stream=goltv",
     "logo": "https://simg.nicepng.com/png/small/5-52552_1-tvg-logo-http-gol-tv-logo-png.png"
   }
+
 ]
