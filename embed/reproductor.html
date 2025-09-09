@@ -1,103 +1,62 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <link rel="icon" href="faviconnuevo.png" type="image/png" />
-   <!-- Open Graph para Facebook y otros -->
-  <meta property="og:title" content="Reproductor | Fútbol Libre TV" />
-  <meta property="og:description" content="Mira partidos de fútbol online gratis en HD desde tu navegador. ¡Fácil, rápido y sin interrupciones!" />
-  <meta property="og:image" content="https://tse2.mm.bing.net/th/id/OIP.8kYsoIrIc4xDvEghq0zMowAAAA?pid=ImgDetMain" />
-  <meta property="og:type" content="website" />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta property="twitter:domain" content="futbolibretv.pages.dev/">
-<meta property="twitter:url" content="https://futbolibretv.pages.dev/">
-<meta name="twitter:title" content="Fútbol Libre TV – Partidos en Vivo Gratis 2025">
-<meta name="twitter:description" content="Disfruta del mejor fútbol en vivo: Copa Libertadores, Sudamericana, Champions y más. Canales gratis online. ¡Fútbol sin límites solo en Fútbol Libre TV!">
-<meta name="twitter:image" content="https://futbolibretv.pages.dev/portada.png" />
-  <link rel="icon" type="image/png" href="favicon-removebg-preview.png" />
-
-
- <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reproductor | Fútbol Libre TV</title>
-  <meta name="description" content="Mira partidos de fútbol online totalmente gratis en vivo en Fútbol Libre TV. Reproductor HD, sin interrupciones.">
-
-
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: black;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    body.modo-oscuro header {
-  background-color: #1e1e1e;
-  border-bottom: 1px solid #333;
-  color: #fff;
-}
-
-body.modo-oscuro a {
-  color: #fff;
-}
-
-body.modo-oscuro .boton {
-  background: #15803d;
-  color: #fff;
-}
-
-body.modo-oscuro .boton:hover {
-  background: #1ed760;
-}
-
-body.modo-oscuro footer {
-  background-color: #000;
-  color: #fff;
-}
-
-body.modo-oscuro iframe {
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-}
-  </style>
- 
-<script type="text/javascript" data-cfasync="false">
-/*<![CDATA[/* */
-(function(){var v=window,k="f92b6767c12ccc463d8c9957d00b097e",h=[["siteId",227+930+959+499+5227894],["minBid",0],["popundersPerIP","2:3,2:12"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],j=["d3d3LmJldHRlcmFkc3lzdGVtLmNvbS9nZGVjay5jb3JlLm1pbi5jc3M=","ZDJrazBvM2ZyN2VkMDEuY2xvdWRmcm9udC5uZXQveUhFL3Vhbmd1bGFyLWltZ2NhY2hlLm1pbi5qcw=="],l=-1,y,n,m=function(){clearTimeout(n);l++;if(j[l]&&!(1781745191000<(new Date).getTime()&&1<l)){y=v.document.createElement("script");y.type="text/javascript";y.async=!0;var e=v.document.getElementsByTagName("script")[0];y.src="https://"+atob(j[l]);y.crossOrigin="anonymous";y.onerror=m;y.onload=function(){clearTimeout(n);v[k.slice(0,16)+k.slice(0,16)]||m()};n=setTimeout(m,5E3);e.parentNode.insertBefore(y,e)}};if(!v[k]){try{Object.freeze(v[k]=h)}catch(e){}m()}})();
-/*]]>/* */
-</script>
- 
-
-
-
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Reproductor | Fútbol Libre TV</title>
+    <link rel="icon" href="faviconnuevo.png" type="image/png" />
+    <!-- Reproductor de Video Clappr -->
+    <script src="//cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <!-- Plugin para reproducir streams HLS (.m3u8) -->
+    <script src="//cdn.jsdelivr.net/npm/clappr-hlsjs-plugin@latest/dist/hlsjs-playback.min.js"></script>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; }
+        #player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        #loading { color: white; text-align: center; padding-top: 40vh; font-family: sans-serif; position: absolute; width: 100%; z-index: 10; }
+    </style>
 </head>
 <body>
-  <body>
-  <iframe id="videoFrame" allowfullscreen></iframe>
+    <div id="player"></div>
+    <div id="loading">Cargando canal, por favor espera...</div>
 
-  <script>
-    // Obtener la URL en base64 desde el parámetro "r"
-    const params = new URLSearchParams(window.location.search);
-    const base64Url = params.get("r");
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const streamName = urlParams.get('stream');
+        const loadingElement = document.getElementById('loading');
+        
+        if (streamName) {
+            // Llama a nuestro propio servidor (que está en la carpeta /api)
+            const apiUrl = `/api/canal?stream=${streamName}`;
 
-    // Validar y decodificar
-    if (base64Url) {
-      try {
-        const decodedUrl = atob(base64Url);
-        document.getElementById("videoFrame").src = decodedUrl;
-      } catch (e) {
-        document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:20px;'>URL inválida</h2>";
-      }
-    } else {
-      document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:20px;'>No se encontró el parámetro de video</h2>";
-    }
-  </script>
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success && data.url) {
+                        loadingElement.style.display = 'none';
+                        // Inicia el reproductor con la URL limpia que nos dio el servidor
+                        new Clappr.Player({
+                            source: data.url,
+                            parentId: "#player",
+                            width: "100%", 
+                            height: "100%",
+                            autoPlay: true,
+                            mediacontrol: { seekbar: "#15803d", buttons: "#FFFFFF" }
+                        });
+                    } else {
+                        loadingElement.innerText = `Error: ${data.error || 'No se recibió una URL válida.'}`;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error en el fetch:", error);
+                    loadingElement.innerText = `No se pudo cargar el canal. Es posible que la transmisión no esté disponible.`;
+                });
+        } else {
+            loadingElement.innerText = 'Error: No se ha especificado un stream para reproducir.';
+        }
+    </script>
 </body>
 </html>
+
