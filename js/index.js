@@ -1,68 +1,12 @@
-const $ = jQuery;
-const AGENDA_URLS = [
-   "https://golazoplay.com/agenda.json", // Fuente de eventos principal
-];
-
-// Al cargar la página, obtiene la agenda y la actualiza cada minuto.
-document.addEventListener("DOMContentLoaded", function () {
-  obtenerAgenda();
-  setInterval(refrescarAgenda, 60000);
-});
-
-// Maneja los clics en los eventos para mostrar y ocultar las opciones de canal.
-document.addEventListener("click", function (e) {
-  // Solo reacciona si se hace clic en la fila principal de un evento.
-  const eventoFila = e.target.closest(".fila");
-  if (!eventoFila) return;
-
-  const evento = eventoFila.parentElement;
-  if (!evento || !evento.classList.contains("evento")) return;
-  
-  const servidores = evento.querySelector(".servidores");
-  if (!servidores) return;
-
-  const estaActivo = servidores.classList.contains("activo");
-
-  // Oculta todos los demás menús antes de actuar.
-  document.querySelectorAll(".servidores.activo").forEach(s => {
-    if (s !== servidores) {
-      s.classList.remove("activo");
-    }
-  });
-
-  // Muestra u oculta el menú actual.
-  servidores.classList.toggle("activo");
-});
-
-
-// --- FUNCIONES AUXILIARES (SIN CAMBIOS) ---
-function convertToUserTimeZone(utcHour) {
-  try {
-    const DateTime = luxon.DateTime;
-    const utcDateTime = DateTime.fromISO(utcHour, { zone: "America/Lima" });
-    return utcDateTime.toLocal().toFormat("HH:mm");
-  } catch (e) {
-    return "N/A";
-  }
-}
-
-function formatDate(dateString) {
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  return new Date(dateString).toLocaleDateString("es-ES", options);
-}
-
-async function refrescarAgenda() {
-  await obtenerAgenda();
-  console.log("Agenda de eventos actualizada.");
-}
-
-
-// --- FUNCIÓN PRINCIPAL (RESTAURADA A LA VERSIÓN SIMPLE) ---
 async function obtenerAgenda() {
   const menuElement = document.getElementById("eventos");
   const titleAgendaElement = document.querySelector(".agenda-titulo");
 
   try {
+    // Primero, cargamos nuestra lista de canales M3U8
+    const misCanalesRes = await fetch('mis_canales.json');
+    const misCanales = await misCanalesRes.json();
+
     let data = [];
     for (const url of AGENDA_URLS) {
       try {
@@ -75,11 +19,6 @@ async function obtenerAgenda() {
         console.error("Error cargando eventos desde:", url, err);
       }
     }
-    
-    // (El código de SEO no necesita cambios)
-    const sportsEvents=data.map(ev=>{const attr=ev.attributes;const dateTime=`${attr.date_diary}T${attr.diary_hour}-05:00`;let embedUrl="https://futbollibretv.pages.dev/";const firstEmbedIframe=attr.embeds?.data[0]?.attributes?.embed_iframe;if(firstEmbedIframe){try{const urlObj=new URL(firstEmbedIframe);const streamName=urlObj.searchParams.get('stream');if(streamName){embedUrl=`https://futbollibretv.pages.dev/embed/reproductor.html?stream=${streamName}`}}catch(e){}}
-    const competencia=attr.country?.data?.attributes?.name||"Fútbol";const description=attr.diary_description.trim().replace(/\s+/g,' ');return{"@type":"SportsEvent","name":description,"startDate":dateTime,"eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","location":{"@type":"Place","name":competencia},"url":embedUrl,"organizer":{"@type":"Organization","name":"Fútbol Libre TV","url":"https://futbollibretv.pages.dev/"},"description":`Partido de ${competencia} en vivo.`}});
-    const ldScript=document.createElement('script');ldScript.type="application/ld+json";ldScript.text=JSON.stringify({"@context":"https://schema.org","@graph":sportsEvents},null,2);const oldScript=document.querySelector('script[type="application/ld+json"]');if(oldScript)oldScript.remove();document.head.appendChild(ldScript);
 
     menuElement.innerHTML = "";
     titleAgendaElement.textContent = "Agenda - " + formatDate(new Date().toISOString());
@@ -103,12 +42,22 @@ async function obtenerAgenda() {
 
         if (embeds && embeds.data.length > 0) {
             embeds.data.forEach((embed) => {
-                const urlDirecto = embed.attributes.embed_iframe;
                 const nombreServidor = embed.attributes.embed_name;
-                // --- LÓGICA SIMPLE RESTAURADA ---
-                // Codificamos la URL en Base64 para pasarla al reproductor
-                const urlCodificada = btoa(urlDirecto);
-                html += `<a href="/embed/reproductor.html?r=${urlCodificada}" target="_blank" class="nombre-servidor">➤ ${nombreServidor}</a>`;
+                
+                // === LA MAGIA OCURRE AQUÍ ===
+                // Buscamos si tenemos este canal en nuestra lista M3U8
+                const miCanal = misCanales.find(c => nombreServidor.toLowerCase().includes(c.nombre.toLowerCase()));
+
+                if (miCanal) {
+                    // Si lo encontramos, usamos nuestro reproductor y nuestro enlace M3U8
+                    const urlCodificada = btoa(miCanal.m3u8); // Codificamos nuestro enlace
+                    html += `<a href="/embed/reproductor_m3u8.html?src=${urlCodificada}" target="_blank" class="nombre-servidor">➤ ${nombreServidor} (Calidad HD)</a>`;
+                } else {
+                    // Opcional: si no lo tenemos, podemos mostrar el enlace original como respaldo
+                    const urlDirecto = embed.attributes.embed_iframe;
+                    const urlCodificada = btoa(urlDirecto);
+                    html += `<a href="/embed/reproductor.html?r=${urlCodificada}" target="_blank" class="nombre-servidor">➤ ${nombreServidor}</a>`;
+                }
             });
         } else {
             html += `<span class="nombre-servidor" style="color: #888; padding-left: 10px;">Próximamente...</span>`;
@@ -123,5 +72,3 @@ async function obtenerAgenda() {
     menuElement.innerHTML = `<li style="color: red; padding: 20px;">No se pudo cargar la agenda. Intenta recargar la página.</li>`;
   }
 }
-
-
