@@ -79,10 +79,8 @@ body.modo-oscuro iframe {
 </head>
 <body>
   <body>
-    <div style="position: relative; width: 100%; height: 100%;">
-  <iframe id="videoFrame" allowfullscreen></iframe>
-  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 90px; z-index: 10;"></div>
-</div>
+<iframe id="videoFrame" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>
+    
   <script>
     // Obtener la URL en base64 desde el parámetro "r"
     const params = new URLSearchParams(window.location.search);
