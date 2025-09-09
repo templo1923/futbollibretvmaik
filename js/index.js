@@ -21,22 +21,21 @@ document.addEventListener("click", function (e) {
   const servidores = evento.querySelector(".servidores");
   if (!servidores) return;
 
-  // Si el menú de este evento ya está abierto, lo cerramos y listo.
-  if (servidores.classList.contains("activo")) {
-    servidores.classList.remove("activo");
-    return;
-  }
+  const estaActivo = servidores.classList.contains("activo");
 
-  // Si no, primero cerramos cualquier otro menú que esté abierto.
+  // Oculta todos los demás menús antes de actuar.
   document.querySelectorAll(".servidores.activo").forEach(s => {
-    s.classList.remove("activo");
+    if (s !== servidores) {
+      s.classList.remove("activo");
+    }
   });
 
-  // Y finalmente, abrimos el menú del evento en el que se hizo clic.
-  servidores.classList.add("activo");
+  // Muestra u oculta el menú actual.
+  servidores.classList.toggle("activo");
 });
 
-// Convierte la hora de la agenda a la zona horaria del usuario.
+
+// --- FUNCIONES AUXILIARES (SIN CAMBIOS) ---
 function convertToUserTimeZone(utcHour) {
   try {
     const DateTime = luxon.DateTime;
@@ -47,25 +46,24 @@ function convertToUserTimeZone(utcHour) {
   }
 }
 
-// Formatea la fecha para el título de la agenda.
 function formatDate(dateString) {
   const options = { year: "numeric", month: "long", day: "numeric" };
   return new Date(dateString).toLocaleDateString("es-ES", options);
 }
 
-// Función para llamar a la actualización de la agenda.
 async function refrescarAgenda() {
   await obtenerAgenda();
   console.log("Agenda de eventos actualizada.");
 }
 
-// Función principal para obtener y mostrar los eventos.
+
+// --- FUNCIÓN PRINCIPAL (RESTAURADA A LA VERSIÓN SIMPLE) ---
 async function obtenerAgenda() {
   const menuElement = document.getElementById("eventos");
   const titleAgendaElement = document.querySelector(".agenda-titulo");
+
   try {
     let data = [];
-    // Carga los datos desde las fuentes externas.
     for (const url of AGENDA_URLS) {
       try {
         const res = await fetch(url, { cache: "no-store" });
@@ -78,27 +76,16 @@ async function obtenerAgenda() {
       }
     }
     
-    // Genera datos estructurados para SEO (sin cambios necesarios).
-    const sportsEvents = data.map(ev => {
-        const attr = ev.attributes;
-        const dateTime = `${attr.date_diary}T${attr.diary_hour}-05:00`;
-        let embedUrl = "https://futbollibretv.pages.dev/";
-        const firstEmbedIframe = attr.embeds?.data[0]?.attributes?.embed_iframe;
-        if(firstEmbedIframe){try{const urlObj=new URL(firstEmbedIframe);const streamName=urlObj.searchParams.get('stream');if(streamName){embedUrl=`https://futbollibretv.pages.dev/embed/reproductor.html?stream=${streamName}`}}catch(e){}}
-        const competencia = attr.country?.data?.attributes?.name || "Fútbol";
-        const description = attr.diary_description.trim().replace(/\s+/g, ' ');
-        return {"@type":"SportsEvent","name":description,"startDate":dateTime,"eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","location":{"@type":"Place","name":competencia},"url":embedUrl,"organizer":{"@type":"Organization","name":"Fútbol Libre TV","url":"https://futbollibretv.pages.dev/"},"description":`Partido de ${competencia} en vivo.`};
-    });
+    // (El código de SEO no necesita cambios)
+    const sportsEvents=data.map(ev=>{const attr=ev.attributes;const dateTime=`${attr.date_diary}T${attr.diary_hour}-05:00`;let embedUrl="https://futbollibretv.pages.dev/";const firstEmbedIframe=attr.embeds?.data[0]?.attributes?.embed_iframe;if(firstEmbedIframe){try{const urlObj=new URL(firstEmbedIframe);const streamName=urlObj.searchParams.get('stream');if(streamName){embedUrl=`https://futbollibretv.pages.dev/embed/reproductor.html?stream=${streamName}`}}catch(e){}}
+    const competencia=attr.country?.data?.attributes?.name||"Fútbol";const description=attr.diary_description.trim().replace(/\s+/g,' ');return{"@type":"SportsEvent","name":description,"startDate":dateTime,"eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OnlineEventAttendanceMode","location":{"@type":"Place","name":competencia},"url":embedUrl,"organizer":{"@type":"Organization","name":"Fútbol Libre TV","url":"https://futbollibretv.pages.dev/"},"description":`Partido de ${competencia} en vivo.`}});
     const ldScript=document.createElement('script');ldScript.type="application/ld+json";ldScript.text=JSON.stringify({"@context":"https://schema.org","@graph":sportsEvents},null,2);const oldScript=document.querySelector('script[type="application/ld+json"]');if(oldScript)oldScript.remove();document.head.appendChild(ldScript);
 
-    // Limpia la lista actual y actualiza el título.
     menuElement.innerHTML = "";
     titleAgendaElement.textContent = "Agenda - " + formatDate(new Date().toISOString());
     
-    // Ordena los eventos por hora.
     data.sort((a, b) => a.attributes.diary_hour.localeCompare(b.attributes.diary_hour));
 
-    // Genera el HTML para cada evento.
     data.forEach((value) => {
         const { diary_hour, diary_description, country, embeds } = value.attributes;
         const imageUrl = country?.data?.attributes?.image?.data?.attributes?.url 
@@ -114,23 +101,16 @@ async function obtenerAgenda() {
                 </div>
                 <div class="servidores">`;
 
-        // Solo añade opciones de canal si existen.
         if (embeds && embeds.data.length > 0) {
             embeds.data.forEach((embed) => {
                 const urlDirecto = embed.attributes.embed_iframe;
                 const nombreServidor = embed.attributes.embed_name;
-                try {
-                    const urlObj = new URL(urlDirecto);
-                    const streamName = urlObj.searchParams.get('stream');
-                    if (streamName) {
-                        html += `<a href="/embed/reproductor.html?stream=${streamName}" target="_blank" class="nombre-servidor">➤ ${nombreServidor}</a>`;
-                    }
-                } catch (e) {
-                    // Ignora URLs de embed inválidas.
-                }
+                // --- LÓGICA SIMPLE RESTAURADA ---
+                // Codificamos la URL en Base64 para pasarla al reproductor
+                const urlCodificada = btoa(urlDirecto);
+                html += `<a href="/embed/reproductor.html?r=${urlCodificada}" target="_blank" class="nombre-servidor">➤ ${nombreServidor}</a>`;
             });
         } else {
-            // Si no hay canales, muestra un mensaje.
             html += `<span class="nombre-servidor" style="color: #888; padding-left: 10px;">Próximamente...</span>`;
         }
 
