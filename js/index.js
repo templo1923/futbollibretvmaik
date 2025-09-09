@@ -1,6 +1,6 @@
 const $ = jQuery;
 const AGENDA_URLS = [
-   "https://ftvhd.com/diaries.json", // Fuente de eventos principal
+   "https://golazoplay.com/agenda.json", // Fuente de eventos principal
 ];
 
 // Al cargar la página, obtiene la agenda y la actualiza cada minuto.
@@ -123,4 +123,5 @@ async function obtenerAgenda() {
     menuElement.innerHTML = `<li style="color: red; padding: 20px;">No se pudo cargar la agenda. Intenta recargar la página.</li>`;
   }
 }
+
 
