@@ -3,10 +3,21 @@ async function obtenerAgenda() {
   const titleAgendaElement = document.querySelector(".agenda-titulo");
 
   try {
-    // Primero, cargamos nuestra lista de canales M3U8
-    const misCanalesRes = await fetch('mis_canales.json');
-    const misCanales = await misCanalesRes.json();
+    let misCanales = []; // Empezamos con una lista vacía por defecto
 
+    // INTENTAMOS cargar tu lista de canales M3U8, pero sin que detenga el resto del código
+    try {
+      const misCanalesRes = await fetch('mis_canales.json');
+      if (misCanalesRes.ok) { // Nos aseguramos de que el archivo se encontró
+        misCanales = await misCanalesRes.json();
+      } else {
+        console.warn("Advertencia: El archivo 'mis_canales.json' no se encontró. Se usarán los enlaces por defecto.");
+      }
+    } catch (err) {
+      console.error("Error al cargar 'mis_canales.json'. Se usarán los enlaces por defecto.", err);
+    }
+
+    // AHORA, continuamos cargando la agenda de eventos como siempre
     let data = [];
     for (const url of AGENDA_URLS) {
       try {
@@ -44,16 +55,15 @@ async function obtenerAgenda() {
             embeds.data.forEach((embed) => {
                 const nombreServidor = embed.attributes.embed_name;
                 
-                // === LA MAGIA OCURRE AQUÍ ===
                 // Buscamos si tenemos este canal en nuestra lista M3U8
                 const miCanal = misCanales.find(c => nombreServidor.toLowerCase().includes(c.nombre.toLowerCase()));
 
                 if (miCanal) {
                     // Si lo encontramos, usamos nuestro reproductor y nuestro enlace M3U8
-                    const urlCodificada = btoa(miCanal.m3u8); // Codificamos nuestro enlace
+                    const urlCodificada = btoa(miCanal.m3u8);
                     html += `<a href="/embed/reproductor_m3u8.html?src=${urlCodificada}" target="_blank" class="nombre-servidor">➤ ${nombreServidor} (Calidad HD)</a>`;
                 } else {
-                    // Opcional: si no lo tenemos, podemos mostrar el enlace original como respaldo
+                    // Si no lo tenemos, usamos el enlace original como respaldo
                     const urlDirecto = embed.attributes.embed_iframe;
                     const urlCodificada = btoa(urlDirecto);
                     html += `<a href="/embed/reproductor.html?r=${urlCodificada}" target="_blank" class="nombre-servidor">➤ ${nombreServidor}</a>`;
