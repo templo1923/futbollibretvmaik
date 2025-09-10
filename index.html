@@ -46,10 +46,11 @@
   <link rel="stylesheet" href="css/styles.min.css" /> 
   
   <style>
-    /* ESTILOS PARA LA SECCIÓN DE REDES SOCIALES CON SCROLL HORIZONTAL */
+    /* ESTILOS PARA EL CARRUSEL DE REDES SOCIALES */
     .redes-sociales-section {
       margin: 40px 0;
       width: 100%;
+      position: relative;
     }
     
     .redes-sociales-titulo {
@@ -64,64 +65,34 @@
       color: #f1f1f1;
     }
     
-    .redes-scroll-container {
+    .carousel-container {
       width: 100%;
-      overflow-x: auto;
-      padding: 15px 0;
-      scrollbar-width: thin;
-      scrollbar-color: #15803d #f1f1f1;
+      position: relative;
+      overflow: hidden;
     }
     
-    body.modo-oscuro .redes-scroll-container {
-      scrollbar-color: #25d366 #2d2d2d;
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
     }
     
-    /* Estilos para la barra de scroll en WebKit (Chrome, Safari) */
-    .redes-scroll-container::-webkit-scrollbar {
-      height: 8px;
-    }
-    
-    .redes-scroll-container::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-    
-    body.modo-oscuro .redes-scroll-container::-webkit-scrollbar-track {
-      background: #2d2d2d;
-    }
-    
-    .redes-scroll-container::-webkit-scrollbar-thumb {
-      background: #15803d;
-      border-radius: 10px;
-    }
-    
-    body.modo-oscuro .redes-scroll-container::-webkit-scrollbar-thumb {
-      background: #25d366;
-    }
-    
-    .redes-scroll-content {
-      display: inline-flex;
-      gap: 20px;
+    .carousel-slide {
+      flex: 0 0 100%;
       padding: 0 15px;
+      box-sizing: border-box;
     }
     
     .redes-card {
       background: white;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
       text-align: center;
       padding: 25px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 250px;
-      flex-shrink: 0;
-    }
-    
-    .redes-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      max-width: 300px;
+      margin: 0 auto;
     }
     
     body.modo-oscuro .redes-card {
@@ -166,15 +137,15 @@
       background: #2d62c9;
     }
     
-    /* Flechas de navegación opcionales */
-    .scroll-nav {
+    /* Controles del carrusel */
+    .carousel-controls {
       display: flex;
       justify-content: center;
-      margin-top: 15px;
-      gap: 15px;
+      margin-top: 20px;
+      gap: 10px;
     }
     
-    .scroll-btn {
+    .carousel-control {
       background: #15803d;
       color: white;
       border: none;
@@ -189,30 +160,64 @@
       transition: background 0.3s;
     }
     
-    .scroll-btn:hover {
+    .carousel-control:hover {
       background: #0f6e32;
     }
     
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .redes-card {
-        min-width: 220px;
-        padding: 20px 15px;
-      }
-      
-      .redes-card img {
-        width: 70px;
-        height: 70px;
-      }
-      
-      .redes-sociales-titulo {
-        font-size: 1.5rem;
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 8px;
+    }
+    
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .carousel-dot.active {
+      background: #15803d;
+    }
+    
+    body.modo-oscuro .carousel-dot {
+      background: #555;
+    }
+    
+    body.modo-oscuro .carousel-dot.active {
+      background: #25d366;
+    }
+    
+    /* Para tablets: mostrar 2 tarjetas */
+    @media (min-width: 768px) {
+      .carousel-slide {
+        flex: 0 0 50%;
       }
     }
     
-    @media (max-width: 480px) {
-      .redes-card {
-        min-width: 200px;
+    /* Para desktop: mostrar 3 tarjetas */
+    @media (min-width: 1024px) {
+      .carousel-slide {
+        flex: 0 0 33.333%;
+      }
+      
+      .carousel-controls {
+        display: none;
+      }
+      
+      .carousel-dots {
+        display: none;
+      }
+      
+      .carousel-track {
+        transform: none !important;
+        flex-wrap: wrap;
+        justify-content: center;
       }
     }
   </style>
@@ -270,51 +275,64 @@
       <div id="eventos" style="min-height: 300px;"></div>
     </div>
 
-    <!-- SECCIÓN DE REDES SOCIALES CON SCROLL HORIZONTAL -->
+    <!-- SECCIÓN DE REDES SOCIALES CON CARRUSEL -->
     <div class="redes-sociales-section">
       <h2 class="redes-sociales-titulo">
         <i class='bx bxs-calendar-star' style="margin-right: 10px;"></i>Nuestras Redes Sociales
       </h2>
       
-      <div class="redes-scroll-container" id="redes-scroll">
-        <div class="redes-scroll-content">
-          <div class="redes-card">
-            <span class="nombre-red">Facebook</span>
-            <img src="https://i.postimg.cc/QtLDQCCc/1724219867491.png" alt="Facebook">
-            <a href="https://www.facebook.com/TU_PAGINA" target="_blank" class="btn-seguir">¡Síguenos!</a>
+      <div class="carousel-container">
+        <div class="carousel-track" id="redes-carousel">
+          <div class="carousel-slide">
+            <div class="redes-card">
+              <span class="nombre-red">Facebook</span>
+              <img src="https://i.postimg.cc/QtLDQCCc/1724219867491.png" alt="Facebook">
+              <a href="https://www.facebook.com/TU_PAGINA" target="_blank" class="btn-seguir">¡Síguenos!</a>
+            </div>
           </div>
           
-          <div class="redes-card">
-            <span class="nombre-red">Tik Tok</span>
-            <img src="https://i.postimg.cc/fbf4bx84/siguenos-icono-logotipo-tiktok-628407-1910.jpg" alt="TikTok">
-            <a href="https://www.tiktok.com/@TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          <div class="carousel-slide">
+            <div class="redes-card">
+              <span class="nombre-red">Tik Tok</span>
+              <img src="https://i.postimg.cc/fbf4bx84/siguenos-icono-logotipo-tiktok-628407-1910.jpg" alt="TikTok">
+              <a href="https://www.tiktok.com/@TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+            </div>
           </div>
 
-          <div class="redes-card">
-            <span class="nombre-red">Instagram</span>
-            <img src="https://i.postimg.cc/bdc3Sxpy/20250113-161051.jpg" alt="Instagram">
-            <a href="https://www.instagram.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          <div class="carousel-slide">
+            <div class="redes-card">
+              <span class="nombre-red">Instagram</span>
+              <img src="https://i.postimg.cc/bdc3Sxpy/20250113-161051.jpg" alt="Instagram">
+              <a href="https://www.instagram.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+            </div>
           </div>
           
-          <div class="redes-card">
-            <span class="nombre-red">Twitter</span>
-            <img src="https://i.postimg.cc/8zZ7zZ7Z/twitter-logo.png" alt="Twitter">
-            <a href="https://twitter.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          <div class="carousel-slide">
+            <div class="redes-card">
+              <span class="nombre-red">Twitter</span>
+              <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjEwMCIgZmlsbD0iIzFkOWFmMiIvPjxwYXRoIGQ9Ik0xNTYuMyA3My4zYy0zLjkgMS43LTguMiAyLjktMTIuNyAzLjQgNC41LTIuNyA3LjktNyA5LjUtMTIuMS00LjIgMi41LTkuNCA0LjItMTQuNiA1LjItNC00LjItOS43LTYuOC0xNi4xLTYuOC0xMi4xIDAtMjEuOSA5LjgtMjEuOSAyMS45IDAgMS43LjIgMy40LjYgNS0xOC4yLTEuMS0zNC4zLTkuNi00NS0yMy4xLTEuOSAzLjItMi45IDctMi45IDExIDAgNy42IDMuOSAxNC4yIDkuNyAxOC4xLTMuNi0uMS03LS45LTEwLjEtMi40LS4xLjEtLjEuMi0uMS4zIDAgMTAuNiA3LjUgMTkuNCAxNy41IDIxLjQtMS44LjUtMy43LjctNS43LjctMS40IDAtMi43LS4xLTQuMS0uNCAyLjggOC43IDExIDExLjkgMjAuNyAxMi0xMi4xIDkuNS0yNy4zIDE1LjEtNDMuNyAxNS4xLTIuOCAwLTUuNi0uMi04LjQtLjUgMTUuMyA5LjggMzMuNSAxNS41IDUzIDE1LjUgNjMuNiAwIDk4LjMtNTIuNSA5OC4zLTk4LjMgMC0xLjUgMC0zLS4xLTQuNSA2LjYtNC45IDEyLjQtMTEgMTYuOC0xOC4xIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==" alt="Twitter">
+              <a href="https://twitter.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+            </div>
           </div>
           
-          <div class="redes-card">
-            <span class="nombre-red">YouTube</span>
-            <img src="https://i.postimg.cc/V6y0y0y0/youtube-logo.png" alt="YouTube">
-            <a href="https://youtube.com/TU_CANAL" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          <div class="carousel-slide">
+            <div class="redes-card">
+              <span class="nombre-red">YouTube</span>
+              <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48cGF0aCBkPSJNMTg2LjggNjMuMUMxODIuNSA1MCAxNzEgNDAuNSAxNTcgMzcuMUMxMzAuNSAzMiA5OS45IDMyIDk5LjkgMzJTNjkuNCAzMiA0Mi45IDM3LjFDMjkgNDAuNSA3LjUgNTAgMy4yIDYzLjFDMCA3Ni4zIDAgMTAwIDAgMTAwczAgMjMuNyAzLjIgMzYuOWM0LjMgMTMuMSAxNS44IDIyLjYgMjkuNyAyNi4xQzU5LjQgMTY4IDk5LjkgMTY4IDk5LjkgMTY4czMwLjUgMCA1Ny01LjFjMTMuOS0zLjUgMjUuNC0xMyAyOS43LTI2LjFDMTkwIDEyMy43IDE5MCAxMDAgMTkwIDEwMHMwLTIzLjctMy4yLTM2Ljl6IiBmaWxsPSIjZmYwMDAwIi8+PHBvbHlnb24gZmlsbD0iI2ZmZiIgcG9pbnRzPSI4MCwxMjUgODAsNzUgMTMwLDEwMCIvPjwvc3ZnPg==" alt="YouTube">
+              <a href="https://youtube.com/TU_CANAL" target="_blank" class="btn-seguir">¡Síguenos!</a>
+            </div>
           </div>
         </div>
       </div>
       
-      <!-- Flechas de navegación opcionales -->
-      <div class="scroll-nav">
-        <button class="scroll-btn" id="scroll-left">&#8592;</button>
-        <button class="scroll-btn" id="scroll-right">&#8594;</button>
+      <!-- Controles del carrusel -->
+      <div class="carousel-controls">
+        <button class="carousel-control prev" id="carousel-prev">&#8249;</button>
+        <button class="carousel-control next" id="carousel-next">&#8250;</button>
       </div>
+      
+      <!-- Indicadores -->
+      <div class="carousel-dots" id="carousel-dots"></div>
     </div>
 
     <div class="titulo-canales">Canales Deportivos en Vivo</div>
@@ -323,6 +341,7 @@
     </div>
   </main>
 
+  <!-- El resto de tu código permanece igual -->
   <style>
     /* Estilos base para ambas secciones */
     .donation-container, .suggestion-section {
@@ -471,7 +490,7 @@
   <section class="suggestion-section" id="sugerencias-form">
     <h2>Buzón de Sugerencias y Mejoras</h2>
     <form>
-      <textarea name="entry.1418657092" placeholder="Tienes alguna sugerencia, queja or idea? Cuéntanos qué canal, liga o partido te gustaría ver..." required></textarea>
+      <textarea name="entry.1418657092" placeholder="Tienes alguna sugerencia, queja o idea? Cuéntanos qué canal, liga o partido te gustaría ver..." required></textarea>
       <button type="submit">Enviar Sugerencia</button>
     </form>
   </section>
@@ -635,20 +654,73 @@
         localStorage.setItem("sugerenciaPopupTime", ahora);
       }
       
-      // Funcionalidad para las flechas de scroll
-      const scrollContainer = document.getElementById('redes-scroll');
-      const scrollLeftBtn = document.getElementById('scroll-left');
-      const scrollRightBtn = document.getElementById('scroll-right');
+      // Inicializar el carrusel de redes sociales
+      const carousel = document.getElementById('redes-carousel');
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const prevBtn = document.getElementById('carousel-prev');
+      const nextBtn = document.getElementById('carousel-next');
+      const dotsContainer = document.getElementById('carousel-dots');
       
-      if (scrollLeftBtn && scrollRightBtn) {
-        scrollLeftBtn.addEventListener('click', () => {
-          scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
+      let currentSlide = 0;
+      const slideCount = slides.length;
+      
+      // Crear dots/indicadores
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.classList.add('carousel-dot');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+          goToSlide(i);
         });
+        dotsContainer.appendChild(dot);
+      });
+      
+      // Función para ir a un slide específico
+      function goToSlide(n) {
+        currentSlide = n;
+        updateCarousel();
+      }
+      
+      // Actualizar el carrusel
+      function updateCarousel() {
+        const transformValue = -currentSlide * 100 + '%';
+        carousel.style.transform = `translateX(${transformValue})`;
         
-        scrollRightBtn.addEventListener('click', () => {
-          scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
+        // Actualizar dots
+        document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentSlide);
         });
       }
+      
+      // Event listeners para los botones
+      prevBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+        updateCarousel();
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % slideCount;
+        updateCarousel();
+      });
+      
+      // Para desktop, no necesitamos el carrusel
+      function checkScreenSize() {
+        if (window.innerWidth >= 1024) {
+          carousel.style.transform = 'none';
+          dotsContainer.style.display = 'none';
+          prevBtn.style.display = 'none';
+          nextBtn.style.display = 'none';
+        } else {
+          dotsContainer.style.display = 'flex';
+          prevBtn.style.display = 'flex';
+          nextBtn.style.display = 'flex';
+          updateCarousel();
+        }
+      }
+      
+      // Verificar el tamaño de pantalla al cargar y al redimensionar
+      checkScreenSize();
+      window.addEventListener('resize', checkScreenSize);
     });
   </script>
 
