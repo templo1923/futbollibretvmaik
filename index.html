@@ -64,6 +64,48 @@
     #agenda-container {
       display: none;
     }
+
+    /* --- ESTILOS AVANZADOS PARA EL BOTÓN DE EVENTOS --- */
+    .eventos-btn {
+        background: linear-gradient(-45deg, #00ff66, #00ffff, #007bff, #15803D);
+        background-size: 400% 400%;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+        display: inline-block;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        
+        /* Aplicamos las animaciones */
+        animation: 
+            gradient-flow 10s ease infinite, /* Para el color */
+            pulse 2s infinite;             /* Para el tamaño */
+    }
+
+    /* Animación del degradado de colores */
+    @keyframes gradient-flow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Animación de pulso (acercar y alejar) */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    /* Regla para hacer el botón adaptable en móviles */
+    @media (max-width: 480px) {
+        .eventos-btn {
+            padding: 12px 20px;
+            font-size: 16px;
+        }
+    }
   </style>
   
   <script type="application/ld+json">
@@ -113,18 +155,9 @@
 
   <main class="main-content">
     <div class="titulo-central">Fútbol Libre</div>
-
+    
     <div style="text-align: center; margin: 25px 0;">
-        <a href="#title-agenda" id="ver-eventos-btn" style="
-            background: linear-gradient(90deg, #1ED760, #15803D);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+        <a href="#title-agenda" id="ver-eventos-btn" class="eventos-btn">
             ¡VER EVENTOS DE HOY!
         </a>
     </div>
