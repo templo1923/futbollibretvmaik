@@ -47,10 +47,10 @@
   <link rel="stylesheet" href="css/styles.min.css" /> 
   
   <style>
-    /* --- AJUSTES PARA ADAPTAR CARRUSEL EN MÓVIL --- */
-    .wrapper { width: 100%; padding-left: 15px; padding-right: 15px; box-sizing: border-box; }
+    /* --- AJUSTES GENERALES --- */
     html { scroll-behavior: smooth; }
     #agenda-container { display: none; }
+    .wrapper { width: 100%; padding-left: 15px; padding-right: 15px; box-sizing: border-box; }
 
     /* --- ESTILOS AVANZADOS PARA EL BOTÓN DE EVENTOS --- */
     .eventos-btn {
@@ -64,38 +64,50 @@
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     
 
-    /* ======================================================= */
-    /* ========= INICIO DE NUEVAS REGLAS RESPONSIVE ========== */
-    /* ======================================================= */
+    /* ============================================================== */
+    /* ========= INICIO DE CORRECCIONES RESPONSIVE POTENTES ========= */
+    /* ============================================================== */
     @media (max-width: 768px) {
-        /* Ajusta el contenido principal para que no se pegue a los bordes */
-        .main-content {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        /* Fuerza a que las tarjetas de redes sociales no sean tan anchas */
+        /*
+         * Problema 1: Las tarjetas de Redes Sociales se desbordan.
+         * Solución: Forzar el tamaño de las tarjetas y sus imágenes internas.
+        */
         .carousel .p-2 {
-            width: 100% !important; /* Asegura que la tarjeta ocupe el espacio disponible */
-            max-width: 300px; /* Un ancho máximo para que no se vea mal */
-            margin: 0 auto; /* Centra la tarjeta */
+            max-width: 280px !important; /* Limitar el ancho máximo de la tarjeta */
+            margin: 0 auto !important;  /* Centrar la tarjeta en el carrusel */
+        }
+        .carousel .p-2 img.w-28 {
+            width: 6rem !important;   /* Anular la clase w-28 (7rem), la hacemos más pequeña */
+            height: 6rem !important;  /* Anular la clase h-28 (7rem) */
         }
 
-        /* Ajusta el tamaño de las tarjetas de canales */
+        /*
+         * Problema 2: La cuadrícula de Canales se ve desordenada.
+         * Solución: Reducir el tamaño general de las tarjetas y su contenido.
+        */
+        .canales-grid {
+            gap: 0.75rem !important; /* Aumentar ligeramente el espacio entre tarjetas */
+        }
         .canales-grid .card {
-            padding: 0.5rem; /* Reduce el padding interno de las tarjetas */
+            padding: 0.5rem !important; /* Reducir el espacio interno de la tarjeta */
         }
         .canales-grid .card h3 {
-            font-size: 0.8rem; /* Reduce el tamaño del título del canal */
+            font-size: 0.8em !important;   /* Letra más pequeña para el título */
+            margin-bottom: 4px !important;
         }
         .canales-grid .card img {
-            width: 80px;  /* Reduce el tamaño del logo */
-            height: 80px;
+            width: 80px !important;  /* Hacer el logo más pequeño */
+            height: 80px !important;
+        }
+        .canales-grid .card button {
+            padding: 6px 10px !important; /* Botón más pequeño */
+            font-size: 0.8em !important;
+            margin-top: 4px !important;
         }
     }
-    /* ======================================================= */
-    /* =========== FIN DE NUEVAS REGLAS RESPONSIVE =========== */
-    /* ======================================================= */
+    /* ============================================================== */
+    /* ========== FIN DE CORRECCIONES RESPONSIVE POTENTES =========== */
+    /* ============================================================== */
 
     @media (max-width: 480px) {
         .eventos-btn { padding: 12px 20px; font-size: 16px; }
