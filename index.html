@@ -42,42 +42,58 @@
   
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/styles.min.css" />
+  <link rel="stylesheet" href="css/styles.min.css" /> 
   
   <style>
-    /* --- SECCIÓN DE REDES SOCIALES (CERO CONFLICTOS) --- */
+    /* --- AJUSTES GENERALES --- */
+    html { scroll-behavior: smooth; }
+
+    /* --- SECCIÓN DE REDES SOCIALES CON SCROLL HORIZONTAL --- */
     .titulo-redes {
       font-size: 1.8rem;
       font-weight: 500;
       text-align: center;
       margin: 2.5rem 0 1.5rem 0;
-      color: #1a202c; /* Color para modo claro */
+      color: #1a202c;
     }
     body.modo-oscuro .titulo-redes {
-        color: #e2e8f0; /* Color para modo oscuro */
+        color: #e2e8f0;
     }
 
+    /* Contenedor principal (Flexbox con scroll) */
     .contenedor-redes {
       display: flex;
-      justify-content: center;
-      gap: 20px; /* Espacio entre tarjetas */
-      flex-wrap: wrap; /* Permite que se apilen si no caben */
-      padding: 0 15px;
+      gap: 15px; /* Espacio entre tarjetas */
+      overflow-x: auto; /* La magia del scroll horizontal */
+      flex-wrap: nowrap; /* Evita que las tarjetas se apilen */
+      padding: 20px 15px; /* Espacio arriba/abajo y en los extremos del scroll */
+      -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
     }
 
+    /* Ocultar la barra de scroll para un diseño más limpio */
+    .contenedor-redes::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    .contenedor-redes {
+        -ms-overflow-style: none;  /* IE y Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    /* Estilo de cada tarjeta */
     .tarjeta-red-social {
-      background-color: #f7fafc; /* Fondo para modo claro */
+      background-color: #f7fafc;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 1.5rem 1rem;
       text-decoration: none;
       color: #2d3748;
       text-align: center;
-      width: 250px; /* Ancho fijo en pantallas grandes */
+      width: 220px; /* Ancho fijo para cada tarjeta */
+      flex-shrink: 0; /* Evita que las tarjetas se encojan */
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     body.modo-oscuro .tarjeta-red-social {
-        background-color: #2d3748; /* Fondo para modo oscuro */
+        background-color: #2d3748;
         border-color: #4a5568;
         color: #e2e8f0;
     }
@@ -91,7 +107,7 @@
     }
 
     .tarjeta-red-social img {
-      width: 60px; /* Tamaño del icono */
+      width: 60px;
       height: 60px;
       margin-bottom: 1rem;
       border-radius: 8px;
@@ -101,26 +117,10 @@
       display: block;
       font-size: 1.1rem;
     }
-
-    @media (max-width: 880px) {
-      .contenedor-redes {
-        flex-direction: column; /* Apila las tarjetas verticalmente */
-        align-items: center;   /* Centra las tarjetas en la columna */
-      }
-      .tarjeta-red-social {
-        width: 100%;
-        max-width: 350px; /* Ancho máximo para tablets */
-      }
-    }
   </style>
   
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Fútbol Libre TV",
-    "url": "https://futbolibretv.pages.dev/"
-  }
+  { "@context": "https://schema.org", "@type": "WebSite", "name": "Fútbol Libre TV", "url": "https://futbolibretv.pages.dev/" }
   </script>
 </head>
 
@@ -169,7 +169,7 @@
           <img src="https://i.postimg.cc/tJ053N2z/instagram-logo.png" alt="Instagram">
           <strong>Síguenos en Instagram</strong>
         </a>
-      </div>
+        </div>
     </div>
     <div class="titulo-canales">Canales Deportivos en Vivo</div>
     <div class="canales-grid" id="canales-grid">
@@ -194,6 +194,6 @@
   <div id="sugerencia-popup" class="sugerencia-popup"> <p>💡 ¿Tienes una sugerencia? <a href="#sugerencias-form">Haz click aquí</a></p> </div>
   <style> .sugerencia-popup { position: fixed; top: 80px; left: 20px; background: #15803d; color: rgb(255, 255, 255); padding: 12px 20px; border-radius: 12px; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; transform: translateX(-120%); transition: transform 0.8s ease, opacity 0.8s ease; z-index: 1000; pointer-events: none; } .sugerencia-popup a { color: #fff; font-weight: bold; text-decoration: underline; pointer-events: auto; } .sugerencia-popup.show { opacity: 1; transform: translateX(0); pointer-events: auto; } .sugerencia-popup.hide { opacity: 0; transform: translateX(-120%); } @media (max-width: 768px) { .header-nav { display: none; } .menu-movil-btn { display: block; } .menu-movil-lista { display: none; position: absolute; top: 60px; right: 20px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 10px; z-index: 1000; } .menu-movil-lista.active { display: block; } .menu-movil-lista a { display: block; padding: 10px; text-decoration: none; color: #333; font-size: 16px; } .menu-movil-lista a:hover { background: #f1f1f1; } body.modo-oscuro .menu-movil-lista { background: #1e1e1e; } body.modo-oscuro .menu-movil-lista a { color: #f1f1f1; } body.modo-oscuro .menu-movil-lista a:hover { background: #2a2a2a; } } @media (min-width: 769px) { .menu-movil-btn, .menu-movil-lista { display: none; } } </style>
   <script> document.addEventListener("DOMContentLoaded", () => { const popup = document.getElementById("sugerencia-popup"); const ultimaVez = localStorage.getItem("sugerenciaPopupTime"); const ahora = Date.now(); const cincoHoras = 5 * 60 * 60 * 1000; if (!ultimaVez || (ahora - ultimaVez) > cincoHoras) { setTimeout(() => { popup.classList.add("show"); }, 2000); setTimeout(() => { popup.classList.remove("show"); popup.classList.add("hide"); }, 8000); localStorage.setItem("sugerenciaPopupTime", ahora); } }); </script>
-  
-  </body>
+
+</body>
 </html>
