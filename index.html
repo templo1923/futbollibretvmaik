@@ -46,9 +46,10 @@
   <link rel="stylesheet" href="css/styles.min.css" /> 
   
   <style>
-    /* ESTILOS PARA LA NUEVA SECCIÓN DE REDES SOCIALES */
+    /* ESTILOS PARA LA SECCIÓN DE REDES SOCIALES CON SCROLL HORIZONTAL */
     .redes-sociales-section {
       margin: 40px 0;
+      width: 100%;
     }
     
     .redes-sociales-titulo {
@@ -63,19 +64,50 @@
       color: #f1f1f1;
     }
     
-    .redes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    .redes-scroll-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 15px 0;
+      scrollbar-width: thin;
+      scrollbar-color: #15803d #f1f1f1;
+    }
+    
+    body.modo-oscuro .redes-scroll-container {
+      scrollbar-color: #25d366 #2d2d2d;
+    }
+    
+    /* Estilos para la barra de scroll en WebKit (Chrome, Safari) */
+    .redes-scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    .redes-scroll-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    body.modo-oscuro .redes-scroll-container::-webkit-scrollbar-track {
+      background: #2d2d2d;
+    }
+    
+    .redes-scroll-container::-webkit-scrollbar-thumb {
+      background: #15803d;
+      border-radius: 10px;
+    }
+    
+    body.modo-oscuro .redes-scroll-container::-webkit-scrollbar-thumb {
+      background: #25d366;
+    }
+    
+    .redes-scroll-content {
+      display: inline-flex;
       gap: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
       padding: 0 15px;
     }
     
     .redes-card {
       background: white;
       border-radius: 12px;
-      overflow: hidden;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s, box-shadow 0.3s;
       text-align: center;
@@ -83,6 +115,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-width: 250px;
+      flex-shrink: 0;
     }
     
     .redes-card:hover {
@@ -132,14 +166,37 @@
       background: #2d62c9;
     }
     
+    /* Flechas de navegación opcionales */
+    .scroll-nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 15px;
+    }
+    
+    .scroll-btn {
+      background: #15803d;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.3s;
+    }
+    
+    .scroll-btn:hover {
+      background: #0f6e32;
+    }
+    
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      .redes-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-      }
-      
       .redes-card {
+        min-width: 220px;
         padding: 20px 15px;
       }
       
@@ -147,16 +204,15 @@
         width: 70px;
         height: 70px;
       }
-    }
-    
-    @media (max-width: 480px) {
-      .redes-grid {
-        grid-template-columns: 1fr;
-        max-width: 300px;
-      }
       
       .redes-sociales-titulo {
         font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .redes-card {
+        min-width: 200px;
       }
     }
   </style>
@@ -168,7 +224,17 @@
     "name": "Fútbol Libre TV",
     "url": "https://futbolibretv.pages.dev/",
     "inLanguage": "es",
-    "publisher": { "@type": "Organization", "name": "Fútbol Libre TV", "url": "https://futbolibretv.pages.dev/", "logo": { "@type": "ImageObject", "url": "https://tse2.mm.bing.net/th/id/OIP.8kYsoIrIc4xDvEghq0zMowAAAA?pid=ImgDetMain", "width": 60, "height": 60 } }
+    "publisher": {
+      "@type": "Organization",
+      "name": "Fútbol Libre TV",
+      "url": "https://futbolibretv.pages.dev/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://tse2.mm.bing.net/th/id/OIP.8kYsoIrIc4xDvEghq0zMowAAAA?pid=ImgDetMain",
+        "width": 60,
+        "height": 60
+      }
+    }
   }
   </script>
 </head>
@@ -177,7 +243,9 @@
   <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; flex-wrap: wrap;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <h1 class="texto-logo" style="margin: 0; font-size: 24px;">
-        <a href="./" style="text-decoration: none; color: inherit;"> Fútbol Libre TV Maik </a>
+        <a href="./" style="text-decoration: none; color: inherit;">
+          Fútbol Libre TV Maik
+        </a>
       </h1>
       <img src="favicon-removebg-preview.png" alt="logo" class="logo-img" style="width: 30px; height: 30px;">
     </div>
@@ -202,29 +270,50 @@
       <div id="eventos" style="min-height: 300px;"></div>
     </div>
 
+    <!-- SECCIÓN DE REDES SOCIALES CON SCROLL HORIZONTAL -->
     <div class="redes-sociales-section">
       <h2 class="redes-sociales-titulo">
         <i class='bx bxs-calendar-star' style="margin-right: 10px;"></i>Nuestras Redes Sociales
       </h2>
       
-      <div class="redes-grid">
-        <div class="redes-card">
-          <span class="nombre-red">Facebook</span>
-          <img src="https://i.postimg.cc/QtLDQCCc/1724219867491.png" alt="Facebook">
-          <a href="https://www.facebook.com/TU_PAGINA" target="_blank" class="btn-seguir">¡Síguenos!</a>
-        </div>
-        
-        <div class="redes-card">
-          <span class="nombre-red">Tik Tok</span>
-          <img src="https://i.postimg.cc/fbf4bx84/siguenos-icono-logotipo-tiktok-628407-1910.jpg" alt="TikTok">
-          <a href="https://www.tiktok.com/@TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
-        </div>
+      <div class="redes-scroll-container" id="redes-scroll">
+        <div class="redes-scroll-content">
+          <div class="redes-card">
+            <span class="nombre-red">Facebook</span>
+            <img src="https://i.postimg.cc/QtLDQCCc/1724219867491.png" alt="Facebook">
+            <a href="https://www.facebook.com/TU_PAGINA" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          </div>
+          
+          <div class="redes-card">
+            <span class="nombre-red">Tik Tok</span>
+            <img src="https://i.postimg.cc/fbf4bx84/siguenos-icono-logotipo-tiktok-628407-1910.jpg" alt="TikTok">
+            <a href="https://www.tiktok.com/@TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          </div>
 
-        <div class="redes-card">
-          <span class="nombre-red">Instagram</span>
-          <img src="https://i.postimg.cc/bdc3Sxpy/20250113-161051.jpg" alt="Instagram">
-          <a href="https://www.instagram.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          <div class="redes-card">
+            <span class="nombre-red">Instagram</span>
+            <img src="https://i.postimg.cc/bdc3Sxpy/20250113-161051.jpg" alt="Instagram">
+            <a href="https://www.instagram.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          </div>
+          
+          <div class="redes-card">
+            <span class="nombre-red">Twitter</span>
+            <img src="https://i.postimg.cc/8zZ7zZ7Z/twitter-logo.png" alt="Twitter">
+            <a href="https://twitter.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          </div>
+          
+          <div class="redes-card">
+            <span class="nombre-red">YouTube</span>
+            <img src="https://i.postimg.cc/V6y0y0y0/youtube-logo.png" alt="YouTube">
+            <a href="https://youtube.com/TU_CANAL" target="_blank" class="btn-seguir">¡Síguenos!</a>
+          </div>
         </div>
+      </div>
+      
+      <!-- Flechas de navegación opcionales -->
+      <div class="scroll-nav">
+        <button class="scroll-btn" id="scroll-left">&#8592;</button>
+        <button class="scroll-btn" id="scroll-right">&#8594;</button>
       </div>
     </div>
 
@@ -236,20 +325,332 @@
 
   <style>
     /* Estilos base para ambas secciones */
-    .donation-container, .suggestion-section { max-width: 520px; margin: 30px auto; padding: 30px; background: #ffffff; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); text-align: center; transition: all 0.3s ease; } .donation-text { font-size: 17px; color: #111; line-height: 1.5; margin-bottom: 20px; transition: color 0.3s ease; } .donation-text strong { color: #15803d; } .donation-button-container { display: inline-block; transition: transform 0.2s; } .suggestion-section h2 { font-size: 1.8rem; font-weight: bold; margin-bottom: 20px; color: #333; transition: color 0.3s ease; } .suggestion-section form { display: flex; flex-direction: column; align-items: center; width: 100%; } .suggestion-section textarea { width: 100%; max-width: 480px; min-height: 150px; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; resize: vertical; outline: none; margin-bottom: 20px; transition: all 0.3s ease; } .suggestion-section textarea:focus { border-color: #15803d; box-shadow: 0 0 6px rgba(37, 211, 102, 0.4); } .suggestion-section button { background-color: #15803d; color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; width: auto; } .suggestion-section button:hover { background-color: #15803d; transform: translateY(-2px); } .suggestion-section button:active { transform: translateY(0); } body.modo-oscuro .donation-container, body.modo-oscuro .suggestion-section { background-color: #1e1e1e; box-shadow: 0 8px 20px rgba(0,0,0,0.6); } body.modo-oscuro .donation-text, body.modo-oscuro .suggestion-section h2 { color: #f1f1f1; } body.modo-oscuro .donation-text strong { color: #25d366; } body.modo-oscuro .suggestion-section textarea { background: #2a2a2a; color: #f1f1f1; border: 1px solid #15803d; } body.modo-oscuro .bmc-btn { filter: brightness(0.9) contrast(1.2); } .sugerencia-popup { position: fixed; top: 80px; left: 20px; background: #15803d; color: white; padding: 12px 20px; border-radius: 12px; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; transform: translateX(-120%); transition: transform 0.8s ease, opacity 0.8s ease; z-index: 1000; pointer-events: none; } .sugerencia-popup a { color: #fff; font-weight: bold; text-decoration: underline; pointer-events: auto; } .sugerencia-popup.show { opacity: 1; transform: translateX(0); pointer-events: auto; } .sugerencia-popup.hide { opacity: 0; transform: translateX(-120%); } body.modo-oscuro .sugerencia-popup { background: #222; color: #eee; } body.modo-oscuro .sugerencia-popup a { color: #15803d; }
+    .donation-container, .suggestion-section {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .donation-text {
+      font-size: 17px;
+      color: #111;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      transition: color 0.3s ease;
+    }
+    .donation-text strong {
+      color: #15803d;
+    }
+    .donation-button-container {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .suggestion-section h2 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+    .suggestion-section form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .suggestion-section textarea {
+      width: 100%;
+      max-width: 480px;
+      min-height: 150px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 1rem;
+      resize: vertical;
+      outline: none;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+    .suggestion-section textarea:focus {
+      border-color: #15803d;
+      box-shadow: 0 0 6px rgba(37, 211, 102, 0.4);
+    }
+    .suggestion-section button {
+      background-color: #15803d;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: auto;
+    }
+    .suggestion-section button:hover {
+      background-color: #15803d;
+      transform: translateY(-2px);
+    }
+    .suggestion-section button:active {
+      transform: translateY(0);
+    }
+    body.modo-oscuro .donation-container,
+    body.modo-oscuro .suggestion-section {
+      background-color: #1e1e1e;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+    body.modo-oscuro .donation-text,
+    body.modo-oscuro .suggestion-section h2 {
+      color: #f1f1f1;
+    }
+    body.modo-oscuro .donation-text strong {
+      color: #25d366;
+    }
+    body.modo-oscuro .suggestion-section textarea {
+      background: #2a2a2a;
+      color: #f1f1f1;
+      border: 1px solid #15803d;
+    }
+    body.modo-oscuro .bmc-btn {
+      filter: brightness(0.9) contrast(1.2);
+    }
+    .sugerencia-popup {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background: #15803d;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateX(-120%);
+      transition: transform 0.8s ease, opacity 0.8s ease;
+      z-index: 1000;
+      pointer-events: none;
+    }
+    .sugerencia-popup a {
+      color: #fff;
+      font-weight: bold;
+      text-decoration: underline;
+      pointer-events: auto;
+    }
+    .sugerencia-popup.show {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .sugerencia-popup.hide {
+      opacity: 0;
+      transform: translateX(-120%);
+    }
+    body.modo-oscuro .sugerencia-popup {
+      background: #222;
+      color: #eee;
+    }
+    body.modo-oscuro .sugerencia-popup a {
+      color: #15803d;
+    }
   </style>
-  <div id="donacion-section" class="donation-container"> <p class="donation-text"> ⚽ ¡Gracias por disfrutar <strong>Futbol Libre</strong>!<br> Cada partido que ves es posible gracias a personas como tú. Apóyanos y ayuda a que el fútbol siga siendo gratis para todos. <strong>¡Haz la diferencia hoy!</strong> </p> <div class="donation-button-container"> <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="futbolibrenet" data-color="#15803d" data-emoji="" data-font="Arial" data-text="Apoyar el proyecto" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#ffffff"></script> </div> </div>
-  <section class="suggestion-section" id="sugerencias-form"> <h2>Buzón de Sugerencias y Mejoras</h2> <form> <textarea name="entry.1418657092" placeholder="Tienes alguna sugerencia, queja o idea? Cuéntanos qué canal, liga o partido te gustaría ver..." required></textarea> <button type="submit">Enviar Sugerencia</button> </form> </section>
-  <script> document.querySelector("#sugerencias-form form").addEventListener("submit", function (e) { e.preventDefault(); const form = e.target; const data = new FormData(form); const mensaje = (data.get("entry.1418657092") || "").toLowerCase(); const palabrasProhibidas=["puta","puto","marica","gonorrea","imbecil","hpta","malparido","perra","estupido","mierda","cabron","culero","cagada","mamaguevo","pendejo","verga","chinga","coño","sexo","porno"]; const contieneProhibida = palabrasProhibidas.some(palabra => mensaje.includes(palabra)); if (contieneProhibida) { alert("⚠️ Tu mensaje contiene palabras ofensivas o inapropiadas. Escríbelo con respeto."); return; } const query = new URLSearchParams(data).toString(); fetch("https://docs.google.com/forms/d/e/1FAIpQLSfYLj8DcZn9furS86buqcNmecOm8tMVLNQTrymr1_7oJBXhPA/formResponse", { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: query }).then(() => { alert("✅ ¡Gracias por tu sugerencia! Valoramos tu feedback y trabajaremos para mejorar lo antes posible."); form.reset(); }).catch(() => { alert("❌ Hubo un error al enviar. Intenta más tarde."); }); }); </script>
-  <footer> <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center;"> <p style="margin: 0;">Fútbol Libre TV 2025©</p> <div style="display: flex; gap: 15px;"> <a href="https://t.me/futbol_libretv">Telegram</a> </div> </div> </footer>
+
+  <div id="donacion-section" class="donation-container">
+    <p class="donation-text">
+      ⚽ ¡Gracias por disfrutar <strong>Futbol Libre</strong>!<br>
+      Cada partido que ves es posible gracias a personas como tú. Apóyanos y ayuda a que el fútbol siga siendo gratis para todos. <strong>¡Haz la diferencia hoy!</strong>
+    </p>
+    <div class="donation-button-container">
+      <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="futbolibrenet" data-color="#15803d" data-emoji="" data-font="Arial" data-text="Apoyar el proyecto" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#ffffff"></script>
+    </div>
+  </div>
+
+  <section class="suggestion-section" id="sugerencias-form">
+    <h2>Buzón de Sugerencias y Mejoras</h2>
+    <form>
+      <textarea name="entry.1418657092" placeholder="Tienes alguna sugerencia, queja or idea? Cuéntanos qué canal, liga o partido te gustaría ver..." required></textarea>
+      <button type="submit">Enviar Sugerencia</button>
+    </form>
+  </section>
+  
+  <script>
+    document.querySelector("#sugerencias-form form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const mensaje = (data.get("entry.1418657092") || "").toLowerCase();
+      const palabrasProhibidas=["puta","puto","marica","gonorrea","imbecil","hpta","malparido","perra","estupido","mierda","cabron","culero","cagada","mamaguevo","pendejo","verga","chinga","coño","sexo","porno"];
+      const contieneProhibida = palabrasProhibidas.some(palabra => mensaje.includes(palabra));
+      if (contieneProhibida) {
+        alert("⚠️ Tu mensaje contiene palabras ofensivas o inapropiadas. Escríbelo con respeto.");
+        return;
+      }
+      const query = new URLSearchParams(data).toString();
+      fetch("https://docs.google.com/forms/d/e/1FAIpQLSfYLj8DcZn9furS86buqcNmecOm8tMVLNQTrymr1_7oJBXhPA/formResponse", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: query
+      }).then(() => {
+        alert("✅ ¡Gracias por tu sugerencia! Valoramos tu feedback y trabajaremos para mejorar lo antes posible.");
+        form.reset();
+      }).catch(() => {
+        alert("❌ Hubo un error al enviar. Intenta más tarde.");
+      });
+    });
+  </script>
+
+  <footer>
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center;">
+      <p style="margin: 0;">Fútbol Libre TV 2025©</p>
+      <div style="display: flex; gap: 15px;">
+        <a href="https://t.me/futbol_libretv">Telegram</a>
+      </div>
+    </div>
+  </footer>
+
   <script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/luxon/3.4.4/luxon.min.js"></script>
   <script defer src="js/index.js"></script>
-  <script defer> if (window.location.search.includes('?i=')) { window.history.replaceState(null, null, window.location.pathname); } </script>
-  <script defer> fetch('canales_con_logo.json') .then(res => res.json()) .then(data => { const container = document.getElementById('canales-grid'); container.innerHTML = ''; data.forEach(canal => { const card = document.createElement('div'); card.className = 'card'; card.innerHTML = ` <h3>${canal.nombre}</h3> <img src="${canal.logo}" alt="${canal.nombre}" width="100" height="100" style="object-fit: contain;"> <button onclick="window.open('ver.html?canal=${encodeURIComponent(canal.nombre)}', '_blank')"><strong>Ver canal</strong></button> `; container.appendChild(card); }); }); const menuMovilBtn = document.getElementById('menu-movil-btn'); const menuMovilLista = document.getElementById('menu-movil-lista'); menuMovilLista.innerHTML = ` <a href="#canales-grid">Canales</a> <a href="#donacion-section">Apóyanos</a> <a href="#sugerencias-form">Deja tus sugerencias</a> `; menuMovilBtn.addEventListener('click', () => { menuMovilLista.classList.toggle('active'); }); document.addEventListener('click', (e) => { if (!menuMovilBtn.contains(e.target) && !menuMovilLista.contains(e.target)) { menuMovilLista.classList.remove('active'); } }); </script>
+  <script defer>
+    if (window.location.search.includes('?i=')) {
+      window.history.replaceState(null, null, window.location.pathname);
+    }
+  </script>
+
+  <script defer>
+    fetch('canales_con_logo.json')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('canales-grid');
+      container.innerHTML = ''; // Limpiar el placeholder
+      data.forEach(canal => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${canal.nombre}</h3>
+          <img src="${canal.logo}" alt="${canal.nombre}" width="100" height="100" style="object-fit: contain;">
+          <button onclick="window.open('ver.html?canal=${encodeURIComponent(canal.nombre)}', '_blank')"><strong>Ver canal</strong></button>
+        `;
+        container.appendChild(card);
+      });
+    });
+
+    const menuMovilBtn = document.getElementById('menu-movil-btn');
+    const menuMovilLista = document.getElementById('menu-movil-lista');
+    menuMovilLista.innerHTML = `
+      <a href="#canales-grid">Canales</a>
+      <a href="#donacion-section">Apóyanos</a>
+      <a href="#sugerencias-form">Deja tus sugerencias</a>
+    `;
+    menuMovilBtn.addEventListener('click', () => {
+      menuMovilLista.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!menuMovilBtn.contains(e.target) && !menuMovilLista.contains(e.target)) {
+        menuMovilLista.classList.remove('active');
+      }
+    });
+  </script>
   <script src="js/tema.js" defer></script>
-  <div id="sugerencia-popup" class="sugerencia-popup"> <p>💡 ¿Tienes una sugerencia? <a href="#sugerencias-form">Haz click aquí</a></p> </div>
-  <style> .sugerencia-popup { position: fixed; top: 80px; left: 20px; background: #15803d; color: rgb(255, 255, 255); padding: 12px 20px; border-radius: 12px; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; transform: translateX(-120%); transition: transform 0.8s ease, opacity 0.8s ease; z-index: 1000; pointer-events: none; } .sugerencia-popup a { color: #fff; font-weight: bold; text-decoration: underline; pointer-events: auto; } .sugerencia-popup.show { opacity: 1; transform: translateX(0); pointer-events: auto; } .sugerencia-popup.hide { opacity: 0; transform: translateX(-120%); } @media (max-width: 768px) { .header-nav { display: none; } .menu-movil-btn { display: block; } .menu-movil-lista { display: none; position: absolute; top: 60px; right: 20px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 10px; z-index: 1000; } .menu-movil-lista.active { display: block; } .menu-movil-lista a { display: block; padding: 10px; text-decoration: none; color: #333; font-size: 16px; } .menu-movil-lista a:hover { background: #f1f1f1; } body.modo-oscuro .menu-movil-lista { background: #1e1e1e; } body.modo-oscuro .menu-movil-lista a { color: #f1f1f1; } body.modo-oscuro .menu-movil-lista a:hover { background: #2a2a2a; } } @media (min-width: 769px) { .menu-movil-btn, .menu-movil-lista { display: none; } } </style>
-  <script> document.addEventListener("DOMContentLoaded", () => { const popup = document.getElementById("sugerencia-popup"); const ultimaVez = localStorage.getItem("sugerenciaPopupTime"); const ahora = Date.now(); const cincoHoras = 5 * 60 * 60 * 1000; if (!ultimaVez || (ahora - ultimaVez) > cincoHoras) { setTimeout(() => { popup.classList.add("show"); }, 2000); setTimeout(() => { popup.classList.remove("show"); popup.classList.add("hide"); }, 8000); localStorage.setItem("sugerenciaPopupTime", ahora); } }); </script>
+
+  <div id="sugerencia-popup" class="sugerencia-popup">
+    <p>💡 ¿Tienes una sugerencia? <a href="#sugerencias-form">Haz click aquí</a></p>
+  </div>
+  <style>
+    .sugerencia-popup {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background: #15803d;
+      color: rgb(255, 255, 255);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateX(-120%);
+      transition: transform 0.8s ease, opacity 0.8s ease;
+      z-index: 1000;
+      pointer-events: none;
+    }
+    .sugerencia-popup a {
+      color: #fff;
+      font-weight: bold;
+      text-decoration: underline;
+      pointer-events: auto;
+    }
+    .sugerencia-popup.show {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .sugerencia-popup.hide {
+      opacity: 0;
+      transform: translateX(-120%);
+    }
+    @media (max-width: 768px) {
+      .header-nav { display: none; }
+      .menu-movil-btn { display: block; }
+      .menu-movil-lista {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        padding: 10px;
+        z-index: 1000;
+      }
+      .menu-movil-lista.active { display: block; }
+      .menu-movil-lista a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+      }
+      .menu-movil-lista a:hover { background: #f1f1f1; }
+      body.modo-oscuro .menu-movil-lista { background: #1e1e1e; }
+      body.modo-oscuro .menu-movil-lista a { color: #f1f1f1; }
+      body.modo-oscuro .menu-movil-lista a:hover { background: #2a2a2a; }
+    }
+    @media (min-width: 769px) {
+      .menu-movil-btn, .menu-movil-lista { display: none; }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const popup = document.getElementById("sugerencia-popup");
+      const ultimaVez = localStorage.getItem("sugerenciaPopupTime");
+      const ahora = Date.now();
+      const cincoHoras = 5 * 60 * 60 * 1000;
+      if (!ultimaVez || (ahora - ultimaVez) > cincoHoras) {
+        setTimeout(() => { popup.classList.add("show"); }, 2000);
+        setTimeout(() => { popup.classList.remove("show"); popup.classList.add("hide"); }, 8000);
+        localStorage.setItem("sugerenciaPopupTime", ahora);
+      }
+      
+      // Funcionalidad para las flechas de scroll
+      const scrollContainer = document.getElementById('redes-scroll');
+      const scrollLeftBtn = document.getElementById('scroll-left');
+      const scrollRightBtn = document.getElementById('scroll-right');
+      
+      if (scrollLeftBtn && scrollRightBtn) {
+        scrollLeftBtn.addEventListener('click', () => {
+          scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        
+        scrollRightBtn.addEventListener('click', () => {
+          scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>
