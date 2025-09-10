@@ -50,27 +50,9 @@
     /* --- AJUSTES PARA ADAPTAR CARRUSEL EN MÓVIL --- */
     .wrapper { width: 100%; padding-left: 15px; padding-right: 15px; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    #agenda-container { display: none; }
+    /* LA REGLA PARA OCULTAR LA AGENDA FUE ELIMINADA */
 
-    /* --- ESTILOS AVANZADOS PARA EL BOTÓN DE EVENTOS (CORREGIDO)--- */
-    .eventos-btn {
-        background: linear-gradient(-45deg, #00ff66, #00ffff, #007bff, #15803D);
-        background-size: 400% 400%;
-        color: white;
-        padding: 15px 30px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 18px;
-        display: inline-block;
-        border: none;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        animation: gradient-flow 10s ease infinite, pulse 2s infinite;
-        max-width: 100%; /* Permite que el botón se encoja si no tiene espacio */
-        box-sizing: border-box; /* Evita que el padding cause desbordamiento */
-    }
-    @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    /* LOS ESTILOS DEL BOTÓN DE EVENTOS FUERON ELIMINADOS */
     
     @media (max-width: 768px) {
         .main-content { padding-left: 10px; padding-right: 10px; }
@@ -86,10 +68,6 @@
     }
     
     @media (max-width: 480px) {
-        .eventos-btn { 
-            padding: 12px 20px; 
-            font-size: 16px; 
-        }
         .carousel .p-2 { max-width: 250px; }
         .carousel .p-2 img { width: 50px !important; height: 50px !important; }
     }
@@ -112,7 +90,6 @@
       </h1>
       <img src="favicon-removebg-preview.png" alt="logo" class="logo-img" style="width: 30px; height: 30px;">
     </div>
-    
     <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
       <nav class="header-nav">
         <a href="#canales-grid" class="nav-link">📺Canales</a>
@@ -128,10 +105,6 @@
   <main class="main-content">
     <div class="titulo-central">Fútbol Libre</div>
     
-    <div style="text-align: center; margin: 25px 0; padding: 0 15px; box-sizing: border-box;">
-        <a href="#title-agenda" id="ver-eventos-btn" class="eventos-btn"> ¡VER EVENTOS DE HOY! </a>
-    </div>
-    
     <div class="agenda-box" id="agenda-container">
       <div class="agenda-titulo" id="title-agenda">Agenda</div>
       <div id="eventos" style="min-height: 300px;"></div>
@@ -141,7 +114,6 @@
       <h2 class="text-3xl my-3 text-center" style="font-weight: 500; font-size: 1.8rem;">
         <span><i class="bx bxs-calendar-star" style="margin-right: 10px;"></i></span>Nuestras Redes Sociales
       </h2>
-      
       <div class="wrapper">
         <div class="carousel owl-carousel">
           <div class="p-2 rounded bg-slate-200 border dark:bg-slate-700 dark:border-gray-600">
@@ -192,7 +164,6 @@
   <script> document.addEventListener("DOMContentLoaded", () => { const popup = document.getElementById("sugerencia-popup"); const ultimaVez = localStorage.getItem("sugerenciaPopupTime"); const ahora = Date.now(); const cincoHoras = 5 * 60 * 60 * 1000; if (!ultimaVez || (ahora - ultimaVez) > cincoHoras) { setTimeout(() => { popup.classList.add("show"); }, 2000); setTimeout(() => { popup.classList.remove("show"); popup.classList.add("hide"); }, 8000); localStorage.setItem("sugerenciaPopupTime", ahora); } }); </script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   <script> document.addEventListener("DOMContentLoaded", function() { if (typeof $ !== 'undefined' && $.fn.owlCarousel) { $(".carousel").owlCarousel({ margin: 20, loop: true, autoplay: true, autoplayTimeout: 4500, autoplayHoverPause: true, responsive: { 0: { items: 1, nav: false }, 600: { items: 2, nav: false }, 1000: { items: 3, nav: false }, }, }); } }); </script>
-  <script> document.addEventListener('DOMContentLoaded', function() { const botonVerEventos = document.getElementById('ver-eventos-btn'); const contenedorAgenda = document.getElementById('agenda-container'); botonVerEventos.addEventListener('click', function(evento) { evento.preventDefault(); contenedorAgenda.style.display = 'block'; contenedorAgenda.scrollIntoView({ behavior: 'smooth' }); }); }); </script>
-
-</body>
+  
+  </body>
 </html>
