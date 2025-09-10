@@ -1,501 +1,121 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <link rel="icon" href="faviconnuevo.png" type="image/png" />
+  <meta property="og:title" content="Reproductor | Fútbol Libre TV" />
+  <meta property="og:description" content="Mira partidos de fútbol online gratis en HD desde tu navegador. ¡Fácil, rápido y sin interrupciones!" />
+  <meta property="og:image" content="https://tse2.mm.bing.net/th/id/OIP.8kYsoIrIc4xDvEghq0zMowAAAA?pid=ImgDetMain" />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:domain" content="futbolibretv.pages.dev/">
+  <meta property="twitter:url" content="https://futbolibretv.pages.dev/">
+  <meta name="twitter:title" content="Fútbol Libre TV – Partidos en Vivo Gratis 2025">
+  <meta name="twitter:description" content="Disfruta del mejor fútbol en vivo: Copa Libertadores, Sudamericana, Champions y más. Canales gratis online. ¡Fútbol sin límites solo en Fútbol Libre TV!">
+  <meta name="twitter:image" content="https://futbolibretv.pages.dev/portada.png" />
+  <link rel="icon" type="image/png" href="favicon-removebg-preview.png" />
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fútbol Libre TV – Partidos en Vivo Gratis 2025</title>
-  <meta name="description" content="Disfruta del mejor fútbol en vivo: Copa Libertadores, Sudamericana, Champions y más. Canales gratis online. ¡Fútbol sin límites solo en Fútbol Libre TV!">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reproductor | Fútbol Libre TV</title>
+  <meta name="description" content="Mira partidos de fútbol online totalmente gratis en vivo en Fútbol Libre TV. Reproductor HD, sin interrupciones.">
+
   <style>
-    /* Estilos base y reset */
-    * {
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      height: 100%;
+      background-color: black;
+      overflow: hidden; /* Evita barras de scroll innecesarias */
     }
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f5f5f5;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    
-    body.modo-oscuro {
-      background-color: #1a1a1a;
-      color: #f1f1f1;
-    }
-    
-    /* Header */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      background-color: #15803d;
-      color: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .texto-logo {
-      margin: 0;
-      font-size: 20px;
-    }
-    
-    .logo-img {
-      width: 30px;
-      height: 30px;
-    }
-    
-    .header-nav {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .nav-link {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    
-    /* Main content */
-    .main-content {
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .titulo-central {
-      text-align: center;
-      font-size: 2.5rem;
-      margin: 20px 0;
-      color: #15803d;
-      font-weight: bold;
-    }
-    
-    body.modo-oscuro .titulo-central {
-      color: #25d366;
-    }
-    
-    /* Redes Sociales */
-    .redes-section {
-      margin: 40px 0;
-    }
-    
-    .redes-titulo {
-      text-align: center;
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      color: #333;
-    }
-    
-    body.modo-oscuro .redes-titulo {
-      color: #f1f1f1;
-    }
-    
-    .redes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-    
-    .redes-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-      text-align: center;
-      padding: 20px;
-    }
-    
-    .redes-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    body.modo-oscuro .redes-card {
-      background: #2d2d2d;
-    }
-    
-    .redes-card img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      margin: 0 auto 15px;
-    }
-    
-    .redes-card .inf {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 15px;
-      color: #333;
-    }
-    
-    body.modo-oscuro .redes-card .inf {
-      color: #f1f1f1;
-    }
-    
-    .redes-card .btn-seguir {
-      display: block;
-      background: #3f7ff7;
-      color: white;
-      padding: 10px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 15px;
-    }
-    
-    /* Canales */
-    .titulo-canales {
-      text-align: center;
-      font-size: 1.8rem;
-      margin: 40px 0 20px;
-      color: #333;
-    }
-    
-    body.modo-oscuro .titulo-canales {
-      color: #f1f1f1;
-    }
-    
-    .canales-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-    
-    .card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
-      text-align: center;
-      padding: 20px;
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    
-    body.modo-oscuro .card {
-      background: #2d2d2d;
-    }
-    
-    .card h3 {
-      margin: 0 0 15px;
-      font-size: 1.1rem;
-      color: #333;
-    }
-    
-    body.modo-oscuro .card h3 {
-      color: #f1f1f1;
-    }
-    
-    .card img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin: 0 auto 15px;
-    }
-    
-    .card button {
-      background: #15803d;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-    
-    .card button:hover {
-      background: #0f6e32;
-    }
-    
-    /* Donación y sugerencias */
-    .donation-container, .suggestion-section {
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-    
-    body.modo-oscuro .donation-container, 
-    body.modo-oscuro .suggestion-section {
-      background: #2d2d2d;
-    }
-    
-    .donation-text {
-      font-size: 17px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    
-    body.modo-oscuro .donation-text {
-      color: #f1f1f1;
-    }
-    
-    .donation-text strong {
-      color: #15803d;
-    }
-    
-    body.modo-oscuro .donation-text strong {
-      color: #25d366;
-    }
-    
-    .suggestion-section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    
-    body.modo-oscuro .suggestion-section h2 {
-      color: #f1f1f1;
-    }
-    
-    .suggestion-section textarea {
+    iframe {
       width: 100%;
-      min-height: 150px;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      resize: vertical;
-    }
-    
-    body.modo-oscuro .suggestion-section textarea {
-      background: #3d3d3d;
-      color: #f1f1f1;
-      border-color: #555;
-    }
-    
-    .suggestion-section button {
-      background: #15803d;
-      color: white;
+      height: 100%;
       border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
     }
-    
-    /* Footer */
-    footer {
+    body.modo-oscuro header {
+      background-color: #1e1e1e;
+      border-bottom: 1px solid #333;
+      color: #fff;
+    }
+    body.modo-oscuro a {
+      color: #fff;
+    }
+    body.modo-oscuro .boton {
       background: #15803d;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      margin-top: 40px;
+      color: #fff;
     }
-    
-    footer a {
-      color: white;
-      text-decoration: none;
+    body.modo-oscuro .boton:hover {
+      background: #1ed760;
     }
-    
-    /* Modo oscuro/light */
-    .toggle-tema {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: white;
+    body.modo-oscuro footer {
+      background-color: #000;
+      color: #fff;
     }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-      }
-      
-      .header-nav {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      
-      .titulo-central {
-        font-size: 2rem;
-      }
-      
-      .redes-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .canales-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      }
-      
-      .card {
-        padding: 15px;
-      }
-      
-      .card img {
-        width: 80px;
-        height: 80px;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .main-content {
-        padding: 15px;
-      }
-      
-      .titulo-central {
-        font-size: 1.8rem;
-      }
-      
-      .redes-titulo, .titulo-canales {
-        font-size: 1.5rem;
-      }
-      
-      .donation-container, .suggestion-section {
-        padding: 20px;
-        margin: 30px 15px;
-      }
+    body.modo-oscuro iframe {
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
     }
   </style>
+
+  <script type="text/javascript" data-cfasync="false">
+  /*<![CDATA[/* */
+  (function(){var v=window,k="f92b6767c12ccc463d8c9957d00b097e",h=[["siteId",227+930+959+499+5227894],["minBid",0],["popundersPerIP","2:3,2:12"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],j=["d3d3LmJldHRlcmFkc3lzdGVtLmNvbS9nZGVjay5jb3JlLm1pbi5jc3M=","ZDJrazBvM2ZyN2VkMDEuY2xvdWRmcm9udC5uZXQveUhFL3Vhbmd1bGFyLWltZ2NhY2hlLm1pbi5qcw=="],l=-1,y,n,m=function(){clearTimeout(n);l++;if(j[l]&&!(1781745191000<(new Date).getTime()&&1<l)){y=v.document.createElement("script");y.type="text/javascript";y.async=!0;var e=v.document.getElementsByTagName("script")[0];y.src="https://"+atob(j[l]);y.crossOrigin="anonymous";y.onerror=m;y.onload=function(){clearTimeout(n);v[k.slice(0,16)+k.slice(0,16)]||m()};n=setTimeout(m,5E3);e.parentNode.insertBefore(y,e)}};if(!v[k]){try{Object.freeze(v[k]=h)}catch(e){}m()}})();
+  /*]]>/* */
+  </script>
 </head>
 
 <body>
-  <header>
-    <div class="logo-container">
-      <h1 class="texto-logo">
-        <a href="./">Fútbol Libre TV</a>
-      </h1>
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAzMCAzMCI+PGNpcmNsZSBjeD0iMTUiIGN5PSIxNSIgcj0iMTQiIGZpbGw9IiMxNTgwM2QiLz48cGF0aCBkPSJNMTAgMTNWMTdIMjBWMTNIMTBaIiBmaWxsPSJ3aGl0ZSIvPjxwYXRoIGQ9Ik0xMCAyMFYxN0gxNFYyMEgxMFoiIGZpbGw9IndoaXRlIi8+PC9zdmc+" alt="logo" class="logo-img">
-    </div>
-    
-    <div class="header-controls">
-      <nav class="header-nav">
-        <a href="#canales-grid" class="nav-link">📺 Canales</a>
-        <a href="#donacion-section" class="nav-link">🤝 Apóyanos</a>
-        <a href="#sugerencias-form" class="nav-link">📩 Sugerencias</a>
-      </nav>
-      <button id="toggle-tema" class="toggle-tema" aria-label="Cambiar modo claro/oscuro">🌙</button>
-    </div>
-  </header>
-
-  <main class="main-content">
-    <div class="titulo-central">Fútbol Libre</div>
-    
-    <div class="redes-section">
-      <h2 class="redes-titulo">
-        <i class='bx bxs-calendar-star'></i> Nuestras Redes Sociales
-      </h2>
-      
-      <div class="redes-grid">
-        <div class="redes-card">
-          <span class="inf">Facebook</span>
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjEwMCIgZmlsbD0iIzNmN2ZmNyIvPjxwYXRoIGQ9Ik0xNjAgMTAwYzAgMzMuMS0yNi45IDYwLTYwIDYwUzQwIDEzMy4xIDQwIDEwMHMyNi45LTYwIDYwLTYwYzMwLjEgMCA1NCAyMy45IDYwIDUzLjN2MjUuM2gtMzV2LTI1aDE1di0xMGgtMTV2LTYuN2MwLTUuMiAzLjQtOC4zIDguNi04LjNoMTB2MTBoLTEwYy0xLjEgMC0yLjEgMS0yLjEgMi4xVjk1aDEydjE1aC0xMHYyNS40aDIwVjExNWgtNXYtMTVoMTVaIiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==" alt="Facebook">
-          <a href="https://www.facebook.com/TU_PAGINA" target="_blank" class="btn-seguir">¡Síguenos!</a>
-        </div>
-        
-        <div class="redes-card">
-          <span class="inf">Tik Tok</span>
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjEwMCIgZmlsbD0iIzAwMDAwMCIvPjxwYXRoIGQ9Ik0xMjAgODB2NDBjMCAxMS0xOSAyMC00MCAyMHMtNDAtOS00MC0yMGMwLTExIDE5LTIwIDQwLTIwYzAgMCAwLTkuNyAwLTE1LjNjMC0yLjcgMy00LjMgNS43LTMuM2MzLjUgMS4zIDkuMyA0LjUgMTQuMyA4LjNjMi41IDIgNSA0IDcuNyA1LjdWNzkuN2MwLjEtMTEuMiA5LjEtMjAuMSAyMC4zLTIwLjFoMC4xYzAgMCAwIDIwIDAgMjBaIiBmaWxsPSJ3aGl0ZSIvPjxwYXRoIGQ9Ik0xMDAgMTIwYzExIDAgMjAtOSAyMC0yMHYtMjBINzB2MjBjMCAxMSA5IDIwIDIwIDIwWiIgZmlsbD0iIzYwRDFGMyIvPjwvc3ZnPg==" alt="TikTok">
-          <a href="https://www.tiktok.com/@TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
-        </div>
-        
-        <div class="redes-card">
-          <span class="inf">Instagram</span>
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48cmFkaWFsR3JhZGllbnQgaWQ9ImciIGN4PSIxMDAlIiBjeT0iMCUiIHI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmMDQwODIiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4MDNlOTQiLz48L3JhZGlhbEdyYWRpZW50PjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMTAwIiBmaWxsPSJ1cmwoI2cpIi8+PHJlY3QgeD0iNTAiIHk9IjUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiByeT0iMjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iOCIvPjxjaXJjbGUgY3g9IjEzMCIgY3k9IjcwIiByPSIxNSIgZmlsbD0id2hpdGUiLz48L3N2Zz4=" alt="Instagram">
-          <a href="https://www.instagram.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="titulo-canales">Canales Deportivos en Vivo</div>
-    <div class="canales-grid" id="canales-grid">
-      <!-- Los canales se cargarán con JavaScript -->
-      <p id="placeholder-canales">Cargando canales...</p>
-    </div>
-  </main>
-
-  <div id="donacion-section" class="donation-container">
-    <p class="donation-text">
-      ⚽ ¡Gracias por disfrutar <strong>Futbol Libre</strong>!<br>
-      Cada partido que ves es posible gracias a personas como tú. Apóyanos y ayuda a que el fútbol siga siendo gratis para todos.
-      <strong>¡Haz la diferencia hoy!</strong>
-    </p>
-    <div class="donation-button-container">
-      <!-- Botón de donación simulado -->
-      <button style="background:#15803d; color:white; padding:12px 24px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
-        Apoyar el proyecto
-      </button>
-    </div>
-  </div>
-  
-  <section class="suggestion-section" id="sugerencias-form">
-    <h2>Buzón de Sugerencias y Mejoras</h2>
-    <form>
-      <textarea name="sugerencia" placeholder="Tienes alguna sugerencia, queja o idea? Cuéntanos qué canal, liga o partido te gustaría ver..." required></textarea>
-      <button type="submit">Enviar Sugerencia</button>
-    </form>
-  </section>
-
-  <footer>
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; max-width: 1200px; margin: 0 auto;">
-      <p style="margin: 0;">Fútbol Libre TV 2025©</p>
-      <div style="display: flex; gap: 15px;">
-        <a href="https://t.me/futbol_libretv">Telegram</a>
-      </div>
-    </div>
-  </footer>
+  <iframe id="videoFrame" allowfullscreen></iframe>
 
   <script>
-    // Simulación de carga de canales
-    document.addEventListener('DOMContentLoaded', function() {
-      const canales = [
-        { nombre: "ESPN", logo: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmMDAwMCIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RVNQTjwvdGV4dD48L3N2Zz4=" },
-        { nombre: "Fox Sports", logo: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwNzBlNiIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Rm94IFNwb3J0czwvdGV4dD48L3N2Zz4=" },
-        { nombre: "DirecTV Sports", logo: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwMGM0YyIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RGlyZWNUViBTcG9ydHM8L3RleHQ+PC9zdmc+" },
-        { nombre: "beIN Sports", logo: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwMDAwMCIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+YmVJTiBTcG9ydHM8L3RleHQ+PC9zdmc=" }
-      ];
-      
-      const container = document.getElementById('canales-grid');
-      container.innerHTML = '';
-      
-      canales.forEach(canal => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <h3>${canal.nombre}</h3>
-          <img src="${canal.logo}" alt="${canal.nombre}">
-          <button><strong>Ver canal</strong></button>
-        `;
-        container.appendChild(card);
-      });
-    });
-    
-    // Toggle modo oscuro/claro
-    document.getElementById('toggle-tema').addEventListener('click', function() {
-      document.body.classList.toggle('modo-oscuro');
-      this.textContent = document.body.classList.contains('modo-oscuro') ? '☀️' : '🌙';
-    });
-    
-    // Manejo del formulario de sugerencias
-    document.querySelector("#sugerencias-form form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      alert("✅ ¡Gracias por tu sugerencia! Valoramos tu feedback.");
-      this.reset();
-    });
+    // Obtener la URL en base64 desde el parámetro "r"
+    const params = new URLSearchParams(window.location.search);
+    const base64Url = params.get("r");
+
+    // Validar y decodificar
+    if (base64Url) {
+      try {
+        const decodedUrl = atob(base64Url);
+        document.getElementById("videoFrame").src = decodedUrl;
+      } catch (e) {
+        document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:20px;'>URL inválida</h2>";
+      }
+    } else {
+      document.body.innerHTML = "<h2 style='color:white;text-align:center;margin-top:20px;'>No se encontró el parámetro de video</h2>";
+    }
   </script>
+
+  <script>
+    const videoIframe = document.getElementById('videoFrame');
+
+    function buscarYDestruirOverlay() {
+      try {
+        const iframeDocument = videoIframe.contentWindow.document;
+        const todosLosDivs = iframeDocument.getElementsByTagName('div');
+
+        for (let i = 0; i < todosLosDivs.length; i++) {
+          const div = todosLosDivs[i];
+          // getComputedStyle nos da los estilos reales que se están aplicando al elemento
+          const estilo = window.getComputedStyle(div);
+
+          // La condición mágica: si un div está "flotando" (absolute) y está muy por encima de todo (z-index alto)...
+          if (estilo.position === 'absolute' && parseInt(estilo.zIndex, 10) > 100000) {
+            console.log('¡Capa de anuncio encontrada y eliminada!', div);
+            // ...lo eliminamos por completo para que no moleste.
+            div.remove();
+          }
+        }
+      } catch (error) {
+        // Es normal que este error aparezca a veces por seguridad, el script lo seguirá intentando.
+      }
+    }
+
+    // Cuando el iframe termine de cargar su contenido...
+    videoIframe.onload = function() {
+      // ...iniciamos un vigilante que revisará cada medio segundo si ha aparecido una capa de anuncio.
+      setInterval(buscarYDestruirOverlay, 500);
+    };
+  </script>
+
 </body>
 </html>
