@@ -48,63 +48,57 @@
   
   <style>
     /* --- AJUSTES PARA ADAPTAR CARRUSEL EN MÓVIL --- */
-    .wrapper {
-      width: 100%;
-      padding-left: 15px;
-      padding-right: 15px;
-      box-sizing: border-box;
-    }
-    
-    /* --- AJUSTE PARA DESPLAZAMIENTO SUAVE --- */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* --- REGLA PARA OCULTAR LA AGENDA POR DEFECTO --- */
-    #agenda-container {
-      display: none;
-    }
+    .wrapper { width: 100%; padding-left: 15px; padding-right: 15px; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    #agenda-container { display: none; }
 
     /* --- ESTILOS AVANZADOS PARA EL BOTÓN DE EVENTOS --- */
     .eventos-btn {
         background: linear-gradient(-45deg, #00ff66, #00ffff, #007bff, #15803D);
-        background-size: 400% 400%;
-        color: white;
-        padding: 15px 30px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 18px;
-        display: inline-block;
-        border: none;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        
-        /* Aplicamos las animaciones */
-        animation: 
-            gradient-flow 10s ease infinite, /* Para el color */
-            pulse 2s infinite;             /* Para el tamaño */
+        background-size: 400% 400%; color: white; padding: 15px 30px; border-radius: 50px;
+        text-decoration: none; font-weight: bold; font-size: 18px; display: inline-block;
+        border: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        animation: gradient-flow 10s ease infinite, pulse 2s infinite;
     }
+    @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    
 
-    /* Animación del degradado de colores */
-    @keyframes gradient-flow {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    /* Animación de pulso (acercar y alejar) */
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
-    }
-
-    /* Regla para hacer el botón adaptable en móviles */
-    @media (max-width: 480px) {
-        .eventos-btn {
-            padding: 12px 20px;
-            font-size: 16px;
+    /* ======================================================= */
+    /* ========= INICIO DE NUEVAS REGLAS RESPONSIVE ========== */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+        /* Ajusta el contenido principal para que no se pegue a los bordes */
+        .main-content {
+            padding-left: 10px;
+            padding-right: 10px;
         }
+
+        /* Fuerza a que las tarjetas de redes sociales no sean tan anchas */
+        .carousel .p-2 {
+            width: 100% !important; /* Asegura que la tarjeta ocupe el espacio disponible */
+            max-width: 300px; /* Un ancho máximo para que no se vea mal */
+            margin: 0 auto; /* Centra la tarjeta */
+        }
+
+        /* Ajusta el tamaño de las tarjetas de canales */
+        .canales-grid .card {
+            padding: 0.5rem; /* Reduce el padding interno de las tarjetas */
+        }
+        .canales-grid .card h3 {
+            font-size: 0.8rem; /* Reduce el tamaño del título del canal */
+        }
+        .canales-grid .card img {
+            width: 80px;  /* Reduce el tamaño del logo */
+            height: 80px;
+        }
+    }
+    /* ======================================================= */
+    /* =========== FIN DE NUEVAS REGLAS RESPONSIVE =========== */
+    /* ======================================================= */
+
+    @media (max-width: 480px) {
+        .eventos-btn { padding: 12px 20px; font-size: 16px; }
     }
   </style>
   
@@ -115,17 +109,7 @@
     "name": "Fútbol Libre TV",
     "url": "https://futbolibretv.pages.dev/",
     "inLanguage": "es",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Fútbol Libre TV",
-      "url": "https://futbolibretv.pages.dev/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://tse2.mm.bing.net/th/id/OIP.8kYsoIrIc4xDvEghq0zMowAAAA?pid=ImgDetMain",
-        "width": 60,
-        "height": 60
-      }
-    }
+    "publisher": { "@type": "Organization", "name": "Fútbol Libre TV", "url": "https://futbolibretv.pages.dev/", "logo": { "@type": "ImageObject", "url": "https://tse2.mm.bing.net/th/id/OIP.8kYsoIrIc4xDvEghq0zMowAAAA?pid=ImgDetMain", "width": 60, "height": 60 } }
   }
   </script>
 </head>
@@ -134,9 +118,7 @@
   <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; flex-wrap: wrap;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <h1 class="texto-logo" style="margin: 0; font-size: 24px;">
-        <a href="./" style="text-decoration: none; color: inherit;">
-          Fútbol Libre TV Maik
-        </a>
+        <a href="./" style="text-decoration: none; color: inherit;"> Fútbol Libre TV Maik </a>
       </h1>
       <img src="favicon-removebg-preview.png" alt="logo" class="logo-img" style="width: 30px; height: 30px;">
     </div>
@@ -157,9 +139,7 @@
     <div class="titulo-central">Fútbol Libre</div>
     
     <div style="text-align: center; margin: 25px 0;">
-        <a href="#title-agenda" id="ver-eventos-btn" class="eventos-btn">
-            ¡VER EVENTOS DE HOY!
-        </a>
+        <a href="#title-agenda" id="ver-eventos-btn" class="eventos-btn"> ¡VER EVENTOS DE HOY! </a>
     </div>
     
     <div class="agenda-box" id="agenda-container">
@@ -174,7 +154,6 @@
       
       <div class="wrapper">
         <div class="carousel owl-carousel">
-          
           <div class="p-2 rounded bg-slate-200 border dark:bg-slate-700 dark:border-gray-600">
             <span class="inf">Facebook</span>
             <a class="flex flex-col justify-evenly items-center h-full" href="https://www.facebook.com/TU_PAGINA" target="_blank">
@@ -182,7 +161,6 @@
               <span style="background:#3f7ff7; font-weight:800;" class="p-2 text-center block w-full m-2 rounded text-white mt-auto">¡Síguenos!</span>
             </a>
           </div>
-          
           <div class="p-2 rounded bg-slate-200 border dark:bg-slate-700 dark:border-gray-600">
             <span class="inf">Tik Tok</span>
             <a class="flex flex-col justify-evenly items-center h-full" href="https://www.tiktok.com/@TU_USUARIO" target="_blank">
@@ -190,7 +168,6 @@
               <span style="background:#3f7ff7; font-weight:800;" class="p-2 text-center block w-full m-2 rounded text-white mt-auto">¡Síguenos!</span>
             </a>
           </div>
-
           <div class="p-2 rounded bg-slate-200 border dark:bg-slate-700 dark:border-gray-600">
             <span class="inf">Instagram</span>
             <a class="flex flex-col justify-evenly items-center h-full" href="https://www.instagram.com/TU_USUARIO" target="_blank">
@@ -198,7 +175,6 @@
               <span style="background:#3f7ff7; font-weight:800;" class="p-2 text-center block w-full m-2 rounded text-white mt-auto">¡Síguenos!</span>
             </a>
           </div>
-
         </div>
       </div>
     </div>
@@ -227,26 +203,7 @@
   <script> document.addEventListener("DOMContentLoaded", () => { const popup = document.getElementById("sugerencia-popup"); const ultimaVez = localStorage.getItem("sugerenciaPopupTime"); const ahora = Date.now(); const cincoHoras = 5 * 60 * 60 * 1000; if (!ultimaVez || (ahora - ultimaVez) > cincoHoras) { setTimeout(() => { popup.classList.add("show"); }, 2000); setTimeout(() => { popup.classList.remove("show"); popup.classList.add("hide"); }, 8000); localStorage.setItem("sugerenciaPopupTime", ahora); } }); </script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   <script> document.addEventListener("DOMContentLoaded", function() { if (typeof $ !== 'undefined' && $.fn.owlCarousel) { $(".carousel").owlCarousel({ margin: 20, loop: true, autoplay: true, autoplayTimeout: 4500, autoplayHoverPause: true, responsive: { 0: { items: 1, nav: false }, 600: { items: 2, nav: false }, 1000: { items: 3, nav: false }, }, }); } }); </script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // 1. Encontrar el botón y el contenedor de la agenda
-      const botonVerEventos = document.getElementById('ver-eventos-btn');
-      const contenedorAgenda = document.getElementById('agenda-container');
-
-      // 2. Escuchar cuando se haga clic en el botón
-      botonVerEventos.addEventListener('click', function(evento) {
-        // 3. Prevenir el salto brusco del enlace
-        evento.preventDefault();
-
-        // 4. Mostrar el contenedor de la agenda
-        contenedorAgenda.style.display = 'block';
-
-        // 5. Desplazarse suavemente hasta la agenda
-        contenedorAgenda.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-  </script>
+  <script> document.addEventListener('DOMContentLoaded', function() { const botonVerEventos = document.getElementById('ver-eventos-btn'); const contenedorAgenda = document.getElementById('agenda-container'); botonVerEventos.addEventListener('click', function(evento) { evento.preventDefault(); contenedorAgenda.style.display = 'block'; contenedorAgenda.scrollIntoView({ behavior: 'smooth' }); }); }); </script>
 
 </body>
 </html>
