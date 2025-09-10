@@ -40,95 +40,136 @@
   <meta name="twitter:image" content="https://futbolibretv.pages.dev/portada.png" />
   <link rel="icon" type="image/png" href="favicon-removebg-preview.png" />
   
+  <link rel="stylesheet" href="https://dl.dropbox.com/scl/fi/9o3fq9yi92otqzmkc9t1c/app.css?rlkey=j86ihtes1o9u33tg7dbmtbe49&dl=0">
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
   
   <link rel="stylesheet" href="css/styles.min.css" /> 
   
   <style>
-    /* --- AJUSTES GENERALES --- */
-    html { scroll-behavior: smooth; }
-
-    /* --- SECCIÓN DE REDES SOCIALES (CERO CONFLICTOS) --- */
-    .titulo-redes {
-      font-size: 1.8rem;
-      font-weight: 500;
+    /* ESTILOS PARA LA NUEVA SECCIÓN DE REDES SOCIALES */
+    .redes-sociales-section {
+      margin: 40px 0;
+    }
+    
+    .redes-sociales-titulo {
       text-align: center;
-      margin: 2.5rem 0 1.5rem 0;
-      color: #1a202c;
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: #333;
+      font-weight: 500;
     }
-    body.modo-oscuro .titulo-redes {
-        color: #e2e8f0;
+    
+    body.modo-oscuro .redes-sociales-titulo {
+      color: #f1f1f1;
     }
-
-    /* Comportamiento para ESCRITORIO */
-    .contenedor-redes {
-      display: flex;
-      justify-content: center; /* Centra las 3 tarjetas */
+    
+    .redes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      flex-wrap: wrap; /* Seguro por si se añaden más tarjetas */
+      max-width: 1000px;
+      margin: 0 auto;
       padding: 0 15px;
     }
-
-    .tarjeta-red-social {
-      background-color: #f7fafc;
-      border: 1px solid #e2e8f0;
+    
+    .redes-card {
+      background: white;
       border-radius: 12px;
-      padding: 1.5rem 1rem;
-      text-decoration: none;
-      color: #2d3748;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
       text-align: center;
-      width: 250px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 25px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    body.modo-oscuro .tarjeta-red-social {
-        background-color: #2d3748;
-        border-color: #4a5568;
-        color: #e2e8f0;
-    }
-
-    .tarjeta-red-social:hover {
+    
+    .redes-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
-    body.modo-oscuro .tarjeta-red-social:hover {
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    
+    body.modo-oscuro .redes-card {
+      background: #2d2d2d;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
-
-    .tarjeta-red-social img {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 1rem;
-      border-radius: 8px;
+    
+    .redes-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 15px;
     }
-
-    .tarjeta-red-social strong {
+    
+    .redes-card .nombre-red {
       display: block;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #333;
       font-size: 1.1rem;
     }
-
-    /* Comportamiento para MÓVILES (Scroll Horizontal) */
-    @media (max-width: 880px) {
-      .contenedor-redes {
-        justify-content: flex-start; /* Alinea las tarjetas al inicio */
-        flex-wrap: nowrap; /* Fuerza todo a una sola línea */
-        overflow-x: auto; /* Habilita el scroll horizontal */
-        padding: 20px 15px; /* Más espacio vertical y en los bordes */
-        -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+    
+    body.modo-oscuro .redes-card .nombre-red {
+      color: #f1f1f1;
+    }
+    
+    .redes-card .btn-seguir {
+      display: block;
+      background: #3f7ff7;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: auto;
+      width: 100%;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    
+    .redes-card .btn-seguir:hover {
+      background: #2d62c9;
+    }
+    
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .redes-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
       }
       
-      /* Ocultar la barra de scroll para un diseño más limpio */
-      .contenedor-redes::-webkit-scrollbar { display: none; }
-      .contenedor-redes { -ms-overflow-style: none; scrollbar-width: none; }
+      .redes-card {
+        padding: 20px 15px;
+      }
       
-      .tarjeta-red-social {
-        width: 220px; /* Un ancho fijo y más pequeño para las tarjetas en el scroll */
-        flex-shrink: 0; /* Evita que las tarjetas se encojan */
+      .redes-card img {
+        width: 70px;
+        height: 70px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .redes-grid {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+      }
+      
+      .redes-sociales-titulo {
+        font-size: 1.5rem;
       }
     }
   </style>
   
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "WebSite", "name": "Fútbol Libre TV", "url": "https://futbolibretv.pages.dev/" }
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fútbol Libre TV",
+    "url": "https://futbolibretv.pages.dev/",
+    "inLanguage": "es",
+    "publisher": { "@type": "Organization", "name": "Fútbol Libre TV", "url": "https://futbolibretv.pages.dev/", "logo": { "@type": "ImageObject", "url": "https://tse2.mm.bing.net/th/id/OIP.8kYsoIrIc4xDvEghq0zMowAAAA?pid=ImgDetMain", "width": 60, "height": 60 } }
+  }
   </script>
 </head>
 
@@ -140,6 +181,7 @@
       </h1>
       <img src="favicon-removebg-preview.png" alt="logo" class="logo-img" style="width: 30px; height: 30px;">
     </div>
+    
     <div style="display: flex; align-items: center; gap: 10px; margin-left: auto;">
       <nav class="header-nav">
         <a href="#canales-grid" class="nav-link">📺Canales</a>
@@ -160,26 +202,32 @@
       <div id="eventos" style="min-height: 300px;"></div>
     </div>
 
-    <div class="seccion-redes">
-      <h2 class="titulo-redes">
-        <span><i class='bx bxs-star' style="vertical-align: middle;"></i></span> Nuestras Redes Sociales
+    <div class="redes-sociales-section">
+      <h2 class="redes-sociales-titulo">
+        <i class='bx bxs-calendar-star' style="margin-right: 10px;"></i>Nuestras Redes Sociales
       </h2>
-      <div class="contenedor-redes">
-        <a href="https://www.facebook.com/TU_PAGINA" target="_blank" class="tarjeta-red-social">
-          <img src="https://i.postimg.cc/J4yYqY9b/facebook-logo.png" alt="Facebook">
-          <strong>Síguenos en Facebook</strong>
-        </a>
-        <a href="https://www.tiktok.com/@TU_USUARIO" target="_blank" class="tarjeta-red-social">
-          <img src="https://i.postimg.cc/8c3Yj5wP/tiktok-logo.png" alt="TikTok">
-          <strong>Síguenos en TikTok</strong>
-        </a>
-        <a href="https://www.instagram.com/TU_USUARIO" target="_blank" class="tarjeta-red-social">
-          <img src="https://i.postimg.cc/tJ053N2z/instagram-logo.png" alt="Instagram">
-          <strong>Síguenos en Instagram</strong>
-        </a>
+      
+      <div class="redes-grid">
+        <div class="redes-card">
+          <span class="nombre-red">Facebook</span>
+          <img src="https://i.postimg.cc/QtLDQCCc/1724219867491.png" alt="Facebook">
+          <a href="https://www.facebook.com/TU_PAGINA" target="_blank" class="btn-seguir">¡Síguenos!</a>
+        </div>
+        
+        <div class="redes-card">
+          <span class="nombre-red">Tik Tok</span>
+          <img src="https://i.postimg.cc/fbf4bx84/siguenos-icono-logotipo-tiktok-628407-1910.jpg" alt="TikTok">
+          <a href="https://www.tiktok.com/@TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+        </div>
+
+        <div class="redes-card">
+          <span class="nombre-red">Instagram</span>
+          <img src="https://i.postimg.cc/bdc3Sxpy/20250113-161051.jpg" alt="Instagram">
+          <a href="https://www.instagram.com/TU_USUARIO" target="_blank" class="btn-seguir">¡Síguenos!</a>
+        </div>
       </div>
     </div>
-    
+
     <div class="titulo-canales">Canales Deportivos en Vivo</div>
     <div class="canales-grid" id="canales-grid">
       <p id="placeholder-canales">Cargando canales...</p>
@@ -203,6 +251,5 @@
   <div id="sugerencia-popup" class="sugerencia-popup"> <p>💡 ¿Tienes una sugerencia? <a href="#sugerencias-form">Haz click aquí</a></p> </div>
   <style> .sugerencia-popup { position: fixed; top: 80px; left: 20px; background: #15803d; color: rgb(255, 255, 255); padding: 12px 20px; border-radius: 12px; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; transform: translateX(-120%); transition: transform 0.8s ease, opacity 0.8s ease; z-index: 1000; pointer-events: none; } .sugerencia-popup a { color: #fff; font-weight: bold; text-decoration: underline; pointer-events: auto; } .sugerencia-popup.show { opacity: 1; transform: translateX(0); pointer-events: auto; } .sugerencia-popup.hide { opacity: 0; transform: translateX(-120%); } @media (max-width: 768px) { .header-nav { display: none; } .menu-movil-btn { display: block; } .menu-movil-lista { display: none; position: absolute; top: 60px; right: 20px; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 10px; z-index: 1000; } .menu-movil-lista.active { display: block; } .menu-movil-lista a { display: block; padding: 10px; text-decoration: none; color: #333; font-size: 16px; } .menu-movil-lista a:hover { background: #f1f1f1; } body.modo-oscuro .menu-movil-lista { background: #1e1e1e; } body.modo-oscuro .menu-movil-lista a { color: #f1f1f1; } body.modo-oscuro .menu-movil-lista a:hover { background: #2a2a2a; } } @media (min-width: 769px) { .menu-movil-btn, .menu-movil-lista { display: none; } } </style>
   <script> document.addEventListener("DOMContentLoaded", () => { const popup = document.getElementById("sugerencia-popup"); const ultimaVez = localStorage.getItem("sugerenciaPopupTime"); const ahora = Date.now(); const cincoHoras = 5 * 60 * 60 * 1000; if (!ultimaVez || (ahora - ultimaVez) > cincoHoras) { setTimeout(() => { popup.classList.add("show"); }, 2000); setTimeout(() => { popup.classList.remove("show"); popup.classList.add("hide"); }, 8000); localStorage.setItem("sugerenciaPopupTime", ahora); } }); </script>
-  
 </body>
 </html>
