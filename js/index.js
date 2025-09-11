@@ -1,6 +1,6 @@
 const $ = jQuery;
 const AGENDA_URLS = [
-"https://www.rojadirectatv.de/programacion.php", // fuente externa
+"https://www.rojadirectatv.de/programacion.json", // fuente externa
 //"https://golazoplay.com/agenda.json"                // tu archivo local
 ];
 
