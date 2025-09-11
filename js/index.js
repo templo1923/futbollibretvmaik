@@ -1,6 +1,6 @@
 const $ = jQuery;
 const AGENDA_URLS = [
-"https://golazoplay.com/agenda.json", // fuente externa
+"https://ftvhd.com/diaries.json", // fuente externa
 //"https://golazoplay.com/agenda.json"                // tu archivo local
 ];
 
@@ -146,6 +146,7 @@ async function obtenerAgenda() {
     menuElement.innerHTML = `<li style="color: red; padding: 20px;">No se pudo cargar la agenda. Intenta recargar la página.</li>`;
   }
 }
+
 
 
 
